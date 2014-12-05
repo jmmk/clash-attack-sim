@@ -1,0 +1,39 @@
+{"frames": {
+
+"grass-dark.png":
+{
+	"frame": {"x":2,"y":2,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"grass-light.png":
+{
+	"frame": {"x":24,"y":2,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"grass-medium.png":
+{
+	"frame": {"x":46,"y":2,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "grass-sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":68,"h":24},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:dadee84f47d7fde459cc73d16640c45e:0f0da0940eb05bb63b0f7ac8eef2de95:fc68305a3d9f8c03e06f065148f5a7d3$"
+}
+}

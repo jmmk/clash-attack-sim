@@ -1,14 +1,6 @@
 # clash-attack-sim
 
-A Clojure library designed to ... well, that part is up to you.
+Clash of Clans attack simulator. Written in Clojurescript using [pixi.js](http://www.pixijs.com/) to render.
 
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+## Credits
+Most of the Entity-Component-System functions were borrowed from https://github.com/johntrimble/asteroids.

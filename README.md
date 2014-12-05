@@ -1,4 +1,4 @@
-# Clash of Clans attack simulator
+# Clash of Clans Attack Simulator
 
 Written in [Clojurescript](https://github.com/clojure/clojurescript) using [pixi.js](http://www.pixijs.com/) to render.
 

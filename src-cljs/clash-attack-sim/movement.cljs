@@ -10,18 +10,23 @@
       mover
       (- mover (* velocity helper/tile-size)))))
 
+(defn get-next-position [this-x this-y angle velocity]
+  (let [cos (.cos js/Math angle)
+        sin (.sin js/Math angle)
+        next-x (+ this-x (* velocity cos))
+        next-y (+ this-y (* velocity sin))]
+    [next-x next-y]))
+
 (defn movement-system [world]
   (let [entities (ecs/get-entities world)
         movers (filter #(ecs/has-component? % :movement) entities)
-        attackers (filter #(ecs/has-component? % :attacker) movers)]
-    (if-not (empty? attackers)
+        facers (filter #(ecs/has-component? % :facing) movers)]
+    (if-not (empty? facers)
       (ecs/assoc-entities world
-                          (for [attacker attackers]
-                            (let [target (ecs/get-target attacker)
-                                  velocity (ecs/get-velocity attacker)
-                                  [target-x target-y] (ecs/get-position target)
-                                  [attacker-x attacker-y] (ecs/get-position attacker)
-                                  final-x (move-towards attacker-x target-x velocity)
-                                  final-y (move-towards attacker-y target-y velocity)]
-                              (ecs/assoc-component attacker (component/position final-x final-y)))))
+                          (for [facer facers]
+                            (let [angle (ecs/get-angle facer)
+                                  velocity (ecs/get-velocity facer)
+                                  [x y] (ecs/get-position facer)
+                                  [final-x final-y] (get-next-position x y angle velocity)]
+                              (ecs/assoc-component facer (component/position final-x final-y)))))
       world)))

@@ -20,6 +20,10 @@
 (defn movement [velocity]
   (Movement. :movement velocity))
 
+(defrecord Facing [name angle])
+(defn facing [angle]
+  (Facing. :facing angle))
+
 ;; TODO
 ;; (defrecord Animation [name animation-fn])
 ;; (defrecord Rotation [name angle])

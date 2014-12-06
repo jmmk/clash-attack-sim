@@ -4,7 +4,7 @@
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.helper :as helper]))
 
-(def ^:const barbarian-speed 0.03)
+(def ^:const barbarian-speed 0.25)
 
 (defn barbarian [x y]
   (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian.png"))]

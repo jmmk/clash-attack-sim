@@ -46,17 +46,21 @@
          (assoc world :entities))))
 
 ;; Helpers
+(defn get-property [entity component field]
+  (let [c (get-component entity component)]
+    (when c
+      (aget c field))))
+
 (defn get-position [entity]
   (let [c (get-component entity :position)]
     (when c
       [(.-x c) (.-y c)])))
 
 (defn get-target [entity]
-  (let [c (get-component entity :attacker)]
-    (when c
-      (.-target c))))
+  (get-property entity :attacker "target"))
 
 (defn get-velocity [entity]
-  (let [c (get-component entity :movement)]
-    (when c
-      (.-velocity c))))
+  (get-property entity :movement "velocity"))
+
+(defn get-angle [entity]
+  (get-property entity :facing "angle"))

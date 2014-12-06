@@ -4,6 +4,7 @@
             [goog.events]
             [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
+            [clash-attack-sim.pathing :as pathing]
             [clash-attack-sim.input :as input]
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.render :as render]
@@ -41,6 +42,7 @@
   (-> world
       (input/input-system)
       (targeting/targeting-system)
+      (pathing/pathing-system)
       (movement/movement-system)
       (render/rendering-system)))
 

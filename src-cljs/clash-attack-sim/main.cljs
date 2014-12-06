@@ -119,7 +119,7 @@
       attacker
       (- attacker (* barbarian-speed tile-size)))))
 
-(defn attack-system [world]
+(defn targeting-system [world]
   (let [entities (get-entities world)
         attackers (filter #(has-component? % :attacker) entities)
         all-attackable (filter #(has-component? % :attackable) entities)]
@@ -179,11 +179,6 @@
             (renderable sprite)
             (attackable))))
 
-(defn add-barbarian-system [world]
-    (assoc-entity world (barbarian
-                          (+ (* (.random js/Math) 500) 100)
-                          (+ (* (.random js/Math) 500) 100))))
-
 (def grass (js/PIXI.TilingSprite.
              (load-texture "images/grass-tile.png")
              total-height
@@ -218,7 +213,7 @@
 (defn next-world [world]
   (-> world
       (input-system)
-      (attack-system)))
+      (targeting-system)))
 
 (defn animation-loop []
   (render! renderer stage @world)

@@ -89,17 +89,19 @@
 (defn load-texture [filename]
   (.fromImage js/PIXI.Texture filename false))
 
-(defn set-x! [sprite pos]
-  (set! (.-x (.-position sprite)) pos))
+(defn set-property! [obj prop value]
+    (aset obj prop value)
+      obj)
 
-(defn set-y! [sprite pos]
-  (set! (.-y (.-position sprite)) pos))
+(defn set-pos! [sprite pos axis]
+  (let [position (.-position sprite)]
+    (set-property! position axis pos))
+  sprite)
 
-(defn set-width! [sprite tiles]
-  (set! (.-width sprite) (get-tile-size tiles)))
-
-(defn set-height! [sprite tiles]
-  (set! (.-height sprite) (get-tile-size tiles)))
+(defn set-dimension! [sprite tiles dimension]
+  (let [size (get-tile-size tiles)]
+    (set-property! sprite dimension size))
+  sprite)
 
 (defn get-distance [a b]
   (let [delta-x (js/Math.abs (- a.x b.x))
@@ -133,15 +135,15 @@
 
 (def stage
   (let [stage (js/PIXI.Stage. 0xFFFFFF)]
-    (set! (.-interactive stage) true)
+    (set-property! stage "interactive" true)
     stage))
 
 (defn barbarian [x y]
   (let [sprite (js/PIXI.Sprite. (load-texture "images/barbarian.png"))]
-    (set-x! sprite x)
-    (set-y! sprite y)
-    (set-height! sprite 1)
-    (set-width! sprite 1)
+    (set-pos! sprite x "x")
+    (set-pos! sprite y "y")
+    (set-dimension! sprite 1 "height")
+    (set-dimension! sprite 1 "width")
     (.addChild stage sprite)
 
     (entity (position x y)
@@ -156,7 +158,7 @@
         y (.-y point)]
     (reset! clicks {:x x :y y})))
 
-(set! (.-click stage) stage-click)
+(set-property! stage "click" stage-click)
 (defn input-system [world]
   (if-not (empty? @clicks)
     (let [x (:x @clicks)
@@ -167,10 +169,10 @@
 
 (defn town-hall [x y]
   (let [sprite (js/PIXI.Sprite. (load-texture "images/town-hall.png"))]
-    (set-x! sprite x)
-    (set-y! sprite y)
-    (set-height! sprite 4)
-    (set-width! sprite 4)
+    (set-pos! sprite x "x")
+    (set-pos! sprite y "y")
+    (set-dimension! sprite 4 "height")
+    (set-dimension! sprite 4 "width")
     (.addChild stage sprite)
 
     (entity (position x y)
@@ -209,8 +211,8 @@
       (when-not (nil? sprite)
         (let [[x y] (get-position e)
               sprite-pos (.-position sprite)]
-          (set! (.-x sprite-pos) x)
-          (set! (.-y sprite-pos) y)))))
+          (set-property! sprite-pos "x" x)
+          (set-property! sprite-pos "y" y)))))
   (.render renderer stage))
 
 (defn next-world [world]

@@ -9,6 +9,9 @@
 (defn assoc-component [entity component]
   (assoc entity (:name component) component))
 
+(defn assoc-components [entity components]
+  (reduce #(assoc %1 (:name %2) %2) entity components))
+
 (defn uuid []
   (cljs-uuid-utils/uuid-string (cljs-uuid-utils/make-random-uuid)))
 
@@ -17,9 +20,7 @@
   ([id] {:name :identifier :id id}))
 
 (defn entity [& components]
-  (let [entity (reduce #(assoc %1 (:name %2) %2)
-                       {}
-                       components)]
+  (let [entity (reduce #(assoc %1 (:name %2) %2) {} components)]
     (if (contains? entity :identifier)
       entity
       (assoc-component entity (identifier)))))
@@ -46,21 +47,25 @@
          (assoc world :entities))))
 
 ;; Helpers
-(defn get-property [entity component field]
-  (let [c (get-component entity component)]
-    (when c
-      (aget c field))))
-
 (defn get-position [entity]
   (let [c (get-component entity :position)]
     (when c
       [(.-x c) (.-y c)])))
 
 (defn get-target [entity]
-  (get-property entity :attacker "target"))
+  (get-in entity [:attacker :target]))
 
 (defn get-velocity [entity]
-  (get-property entity :movement "velocity"))
+  (get-in entity [:movement :velocity]))
 
 (defn get-angle [entity]
-  (get-property entity :facing "angle"))
+  (get-in entity [:facing :angle]))
+
+(defn get-sprite-list [entity]
+  (get-in entity [:animation :sprite-list]))
+
+(defn get-animation-seq [entity]
+  (get-in entity [:animation :animation-seq]))
+
+(defn get-current-index [entity]
+  (get-in entity [:animation :current]))

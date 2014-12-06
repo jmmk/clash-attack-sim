@@ -7,14 +7,25 @@
 (def ^:const barbarian-speed 0.25)
 
 (defn barbarian [x y]
-  (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian-neutral-down.png"))]
+  (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian-neutral-down.png"))
+        right (js/PIXI.Sprite. (helper/load-texture "images/barbarian-run-right-down.png"))
+        left (js/PIXI.Sprite. (helper/load-texture "images/barbarian-run-left-down.png"))
+        sprite-list {:neutral sprite :right right :left left}
+        animation-seq [:neutral :left :neutral :right]]
     (sprite/set-pos! sprite "x" x)
     (sprite/set-pos! sprite "y" y)
     (sprite/set-dimension! sprite "height" 1)
     (sprite/set-dimension! sprite "width" 1)
 
+    (sprite/set-dimension! right "height" 1)
+    (sprite/set-dimension! right "width" 1)
+
+    (sprite/set-dimension! left "height" 1)
+    (sprite/set-dimension! left "width" 1)
+
     (ecs/entity (component/position x y)
                 (component/movement barbarian-speed)
+                (component/animation sprite-list animation-seq 0)
                 (component/renderable sprite)
                 (component/attacker nil))))
 

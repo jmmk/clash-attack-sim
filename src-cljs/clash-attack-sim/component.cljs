@@ -24,7 +24,9 @@
 (defn facing [angle]
   (Facing. :facing angle))
 
+(defrecord Animation [name sprite-list animation-seq current])
+  (defn animation [sprite-list animation-seq current]
+    (Animation. :animation sprite-list animation-seq current))
+
 ;; TODO
-;; (defrecord Animation [name animation-fn])
-;; (defrecord Rotation [name angle])
 ;; (defrecord Collision [name bounds])

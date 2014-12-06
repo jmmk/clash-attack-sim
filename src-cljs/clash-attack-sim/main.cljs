@@ -4,6 +4,7 @@
             [goog.events]
             [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
+            [clash-attack-sim.animation :as animation]
             [clash-attack-sim.pathing :as pathing]
             [clash-attack-sim.input :as input]
             [clash-attack-sim.helper :as helper]
@@ -24,10 +25,15 @@
     (helper/set-property! stage "click" input/stage-click)
     stage))
 
+(defn frame-counter [world]
+  (let [frame-count (:frame-count world)]
+    (assoc world :frame-count (inc frame-count))))
+
 (defn generate-world [world]
   (-> world
       (assoc :renderer (init-renderer))
       (assoc :stage (init-stage))
+      (assoc :frame-count 0)
       (ecs/assoc-entities
         [(entities/barbarian 160 160)
          (entities/town-hall 320 320)])))
@@ -40,10 +46,12 @@
 
 (defn next-world [world]
   (-> world
+      (frame-counter)
       (input/input-system)
       (targeting/targeting-system)
       (pathing/pathing-system)
       (movement/movement-system)
+      (animation/animation-system)
       (render/rendering-system)))
 
 (defn animation-loop []

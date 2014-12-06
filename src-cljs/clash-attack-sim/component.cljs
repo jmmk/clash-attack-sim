@@ -4,12 +4,9 @@
 (defn position [x y]
     (Position. :position x y))
 
-(defrecord Renderable [name sprite on-stage])
-(defn renderable
-  ([sprite]
-   (renderable sprite false))
-  ([sprite on-stage]
-   (Renderable. :renderable sprite on-stage)))
+(defrecord Renderable [name sprite])
+(defn renderable [sprite]
+   (Renderable. :renderable sprite))
 
 (defrecord Attacker [name target])
 (defn attacker [target]

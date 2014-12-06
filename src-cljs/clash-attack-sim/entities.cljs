@@ -4,6 +4,8 @@
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.helper :as helper]))
 
+(def ^:const barbarian-speed 0.03)
+
 (defn barbarian [x y]
   (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian.png"))]
     (sprite/set-pos! sprite "x" x)
@@ -12,6 +14,7 @@
     (sprite/set-dimension! sprite "width" 1)
 
     (ecs/entity (component/position x y)
+                (component/movement barbarian-speed)
                 (component/renderable sprite)
                 (component/attacker nil))))
 

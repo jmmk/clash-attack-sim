@@ -16,8 +16,11 @@
 (defn attackable []
     (Attackable. :attackable))
 
+(defrecord Movement [name velocity])
+(defn movement [velocity]
+  (Movement. :movement velocity))
+
 ;; TODO
 ;; (defrecord Animation [name animation-fn])
 ;; (defrecord Rotation [name angle])
-;; (defrecord Movement [name velocity])
 ;; (defrecord Collision [name bounds])

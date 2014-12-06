@@ -46,11 +46,17 @@
          (assoc world :entities))))
 
 ;; Helpers
-(defn on-stage? [entity]
-  (let [c (get-component entity :renderable)]
-    (.-on-stage c)))
-
 (defn get-position [entity]
   (let [c (get-component entity :position)]
     (when c
       [(.-x c) (.-y c)])))
+
+(defn get-target [entity]
+  (let [c (get-component entity :attacker)]
+    (when c
+      (.-target c))))
+
+(defn get-velocity [entity]
+  (let [c (get-component entity :movement)]
+    (when c
+      (.-velocity c))))

@@ -7,7 +7,7 @@
 (def ^:const barbarian-speed 0.25)
 
 (defn barbarian [x y]
-  (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian.png"))]
+  (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/barbarian-neutral-down.png"))]
     (sprite/set-pos! sprite "x" x)
     (sprite/set-pos! sprite "y" y)
     (sprite/set-dimension! sprite "height" 1)

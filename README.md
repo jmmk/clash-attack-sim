@@ -2,6 +2,8 @@
 
 Written in [Clojurescript](https://github.com/clojure/clojurescript) using [pixi.js](http://www.pixijs.com/) to render.
 
+The latest working version can be found at http://jmmk.github.io/clash-attack-sim/
+
 **Very much a Work In Progress**
 
 

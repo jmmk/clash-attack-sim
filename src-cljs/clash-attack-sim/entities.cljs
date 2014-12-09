@@ -7,9 +7,9 @@
 (def ^:const barbarian-speed 0.25)
 
 (defn barbarian [x y]
-  (let [neutral (js/PIXI.Sprite. (helper/load-texture "images/barbarian-neutral-down.png"))
-        right (js/PIXI.Sprite. (helper/load-texture "images/barbarian-run-right-down.png"))
-        left (js/PIXI.Sprite. (helper/load-texture "images/barbarian-run-left-down.png"))
+  (let [neutral (sprite/from-frame "barbarian-neutral-down.png")
+        right (sprite/from-frame "barbarian-run-right-down.png")
+        left (sprite/from-frame "barbarian-run-left-down.png")
         sprite-list {:neutral neutral :right right :left left}
         animation-seq [:neutral :left :neutral :right]]
     (sprite/set-pos! neutral x y)
@@ -24,7 +24,7 @@
                 (component/attacker nil))))
 
 (defn town-hall [x y]
-  (let [sprite (js/PIXI.Sprite. (helper/load-texture "images/town-hall.png"))]
+  (let [sprite (sprite/from-image "images/town-hall.png")]
     (sprite/set-pos! sprite x y)
     (sprite/resize! sprite 4 4)
 

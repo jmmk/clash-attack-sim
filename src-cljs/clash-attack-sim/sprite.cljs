@@ -15,3 +15,12 @@
 (defn resize! [sprite width height]
   (set-dimension! sprite "width" width)
   (set-dimension! sprite "height" height))
+
+(defn from-frame [image]
+  (.fromFrame js/PIXI.Sprite image))
+
+(defn from-image [image]
+  (.fromImage js/PIXI.Sprite image))
+
+(defn load-texture [filename]
+    (.fromImage js/PIXI.Texture filename false))

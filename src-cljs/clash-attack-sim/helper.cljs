@@ -13,9 +13,6 @@
 (def total-width (get-tile-size grid-x-size))
 (def total-height (get-tile-size grid-y-size))
 
-(defn load-texture [filename]
-  (.fromImage js/PIXI.Texture filename false))
-
 (defn set-property! [obj prop value]
     (aset obj prop value)
       obj)

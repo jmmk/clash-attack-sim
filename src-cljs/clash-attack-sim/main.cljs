@@ -41,9 +41,6 @@
 ;; Initialize global world state
 (def world (atom {}))
 
-;; Set initial state
-(swap! world generate-world)
-
 (defn next-world [world]
   (-> world
       (frame-counter)
@@ -58,4 +55,17 @@
   (swap! world next-world)
   (js/requestAnimFrame animation-loop))
 
-(js/requestAnimFrame animation-loop)
+(defn initialize []
+  (swap! world generate-world)
+  (js/requestAnimFrame animation-loop))
+
+;; Preload Assets
+(def asset-loader (js/PIXI.AssetLoader. #js ["images/barbarian-run-down.json"
+                                             "images/grass-tile.png"
+                                             "images/town-hall.png"]
+                                        false))
+;; TODO Create a Loading Screen
+;;(defn move-loader [])
+;;(helper/set-property! asset-loader "onProgress" move-loader)
+(helper/set-property! asset-loader "onComplete" initialize)
+(.load asset-loader)

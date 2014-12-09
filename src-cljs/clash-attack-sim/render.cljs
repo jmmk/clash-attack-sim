@@ -2,10 +2,11 @@
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.component :as component]
+            [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.input :as input]))
 
 (def grass (js/PIXI.TilingSprite.
-             (helper/load-texture "images/grass-tile.png")
+             (sprite/load-texture "images/grass-tile.png")
              helper/total-height
              helper/total-width))
 

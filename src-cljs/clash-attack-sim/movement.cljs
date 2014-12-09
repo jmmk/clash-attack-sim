@@ -19,14 +19,13 @@
 
 (defn movement-system [world]
   (let [entities (ecs/get-entities world)
-        movers (filter #(ecs/has-component? % :movement) entities)
-        facers (filter #(ecs/has-component? % :facing) movers)]
-    (if-not (empty? facers)
+        movers (filter #(ecs/has-components? % :movement :facing) entities)]
+    (if-not (empty? movers)
       (ecs/assoc-entities world
-                          (for [facer facers]
-                            (let [angle (ecs/get-angle facer)
-                                  velocity (ecs/get-velocity facer)
-                                  [x y] (ecs/get-position facer)
+                          (for [mover movers]
+                            (let [angle (ecs/get-angle mover)
+                                  velocity (ecs/get-velocity mover)
+                                  [x y] (ecs/get-position mover)
                                   [final-x final-y] (get-next-position x y angle velocity)]
-                              (ecs/assoc-component facer (component/position final-x final-y)))))
+                              (ecs/assoc-component mover (component/position final-x final-y)))))
       world)))

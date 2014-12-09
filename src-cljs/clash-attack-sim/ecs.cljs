@@ -3,6 +3,9 @@
 (defn has-component? [entity name]
     (contains? entity name))
 
+(defn has-components? [entity & components]
+  (every? (partial has-component? entity) components))
+
 (defn get-component [entity component]
   (get entity component))
 

@@ -13,8 +13,7 @@
 
 (defn pathing-system [world]
   (let [entities (ecs/get-entities world)
-        movers (filter #(ecs/has-component? % :movement) entities)
-        attackers (filter #(ecs/has-component? % :attacker) movers)]
+        attackers (filter #(ecs/has-components? % :attacker :movement) entities)]
     (if-not (empty? attackers)
       (ecs/assoc-entities world
                           (for [attacker attackers]

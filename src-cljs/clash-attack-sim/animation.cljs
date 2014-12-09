@@ -10,8 +10,7 @@
 
 (defn animation-system [world]
   (let [frame-count (:frame-count world)
-        entities (ecs/get-entities world)
-        all-animatable (filter #(ecs/has-component? % :animation) entities)]
+        all-animatable (ecs/get-entities-with-component world :animation)]
     (if-not (= (mod frame-count 15) 0)
       world
       (if-not (empty? all-animatable)

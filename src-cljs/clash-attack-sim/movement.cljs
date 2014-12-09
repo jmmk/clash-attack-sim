@@ -18,8 +18,7 @@
     [next-x next-y]))
 
 (defn movement-system [world]
-  (let [entities (ecs/get-entities world)
-        movers (filter #(ecs/has-components? % :movement :facing) entities)]
+  (let [movers (ecs/get-entities-with-components world :movement :facing)]
     (if-not (empty? movers)
       (ecs/assoc-entities world
                           (for [mover movers]

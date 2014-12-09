@@ -9,12 +9,11 @@
 
 (defn find-target
   [attacker all-attackable]
-  (apply min-key (partial get-distance attacker) (seq all-attackable)))
+  (apply min-key (partial get-distance attacker) all-attackable))
 
 (defn targeting-system [world]
-  (let [entities (ecs/get-entities world)
-        attackers (filter #(ecs/has-component? % :attacker) entities)
-        all-attackable (filter #(ecs/has-component? % :attackable) entities)]
+  (let [attackers (ecs/get-entities-with-component world :attacker)
+        all-attackable (ecs/get-entities-with-component world :attackable)]
     (if-not (empty? all-attackable)
       (ecs/assoc-entities world
                       (for [attacker attackers]

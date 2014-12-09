@@ -3,7 +3,7 @@
 (defn has-component? [entity name]
     (contains? entity name))
 
-(defn has-components? [entity & components]
+(defn has-components? [entity components]
   (every? (partial has-component? entity) components))
 
 (defn get-component [entity component]
@@ -34,14 +34,20 @@
 (defn get-entities [world]
     (vals (:entities world)))
 
-(defn assoc-entity [world entity]
-  (let [id (-> entity
-               (get-component :identifier)
-               :id)]
-    (assoc-in world [:entities id] entity)))
+(defn get-entities-with-component [world component]
+  (let [entities (get-entities world)]
+    (filter #(has-component? % component) entities)))
+
+(defn get-entities-with-components [world & components]
+  (let [entities (get-entities world)]
+    (filter #(has-components? % components) entities)))
 
 (defn get-id [entity]
-    (-> entity (get-component :identifier) :id))
+  (get-in entity [:identifier :id]))
+
+(defn assoc-entity [world entity]
+  (let [id (get-id entity)]
+    (assoc-in world [:entities id] entity)))
 
 (defn assoc-entities [world entities]
   (let [entity-map (or (:entities world) {})]
@@ -63,6 +69,9 @@
 
 (defn get-angle [entity]
   (get-in entity [:facing :angle]))
+
+(defn get-sprite [entity]
+  (get-in entity [:renderable :sprite]))
 
 (defn get-sprite-list [entity]
   (get-in entity [:animation :sprite-list]))

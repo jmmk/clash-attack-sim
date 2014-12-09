@@ -12,8 +12,7 @@
     (.atan2 js/Math delta-y delta-x)))
 
 (defn pathing-system [world]
-  (let [entities (ecs/get-entities world)
-        attackers (filter #(ecs/has-components? % :attacker :movement) entities)]
+  (let [attackers (ecs/get-entities-with-components world :attacker :movement)]
     (if-not (empty? attackers)
       (ecs/assoc-entities world
                           (for [attacker attackers]

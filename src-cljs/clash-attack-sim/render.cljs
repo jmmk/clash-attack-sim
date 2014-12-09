@@ -14,13 +14,11 @@
         renderer (:renderer world)]
     (.removeChildren stage)
     (.addChild stage grass)
-    (doseq [e (filter #(ecs/has-component? % :renderable) (ecs/get-entities world))]
-      (let [render-component (ecs/get-component e :renderable)
-            sprite (.-sprite render-component)]
+    (doseq [entity (ecs/get-entities-with-component world :renderable)]
+      (let [sprite (ecs/get-sprite entity)]
         (when-not (nil? sprite)
-          (let [[x y] (ecs/get-position e)
-                sprite-pos (.-position sprite)
-                on-stage (.-on-stage render-component)]
+          (let [[x y] (ecs/get-position entity)
+                sprite-pos (.-position sprite)]
             (helper/set-property! sprite-pos "x" x)
             (helper/set-property! sprite-pos "y" y)
             (.addChild stage sprite)))))

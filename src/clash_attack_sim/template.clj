@@ -8,5 +8,5 @@
     [:body
      [:div {:id "battlefield"
             :style "margin-left: auto; margin-right: auto; width: 640px; height: 640px;"}]
-      (include-js "js/extern/pixi.js")
+      (include-js "bower_components/pixi/bin/pixi.js")
       (include-js "js/clash-attack-sim.js")]))

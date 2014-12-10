@@ -1,0 +1,7 @@
+{
+  "name": "clash-attack-sim",
+  "private": true,
+  "dependencies": {
+    "pixi": "~2.1.1"
+  }
+}

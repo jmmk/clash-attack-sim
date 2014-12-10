@@ -16,10 +16,9 @@
                        :devel {
                                :source-paths ["src-cljs"]
                                :compiler {:output-to "resources/public/js/clash-attack-sim.js"
-                                          :optimizations :whitespace
-                                          :externs ["resources/public/js/extern/pixi.js"]}}
+                                          :optimizations :whitespace}}
                        :production {
                                     :source-paths ["src-cljs"]
-                                    :compiler {:output-to "resources/public/js/clash-attack-sim.js"
+                                    :compiler {:output-to "target/production/js/clash-attack-sim.js"
                                                :optimizations :advanced
-                                               :externs ["resources/public/js/extern/pixi.js"]}}}})
+                                               :externs ["bower_components/pixi/bin/pixi.js"]}}}})

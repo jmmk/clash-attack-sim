@@ -1,0 +1,39 @@
+{"frames": {
+
+"barbarian-neutral-down.png":
+{
+	"frame": {"x":2,"y":2,"w":38,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":38,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"barbarian-run-left-down.png":
+{
+	"frame": {"x":42,"y":2,"w":38,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":38,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"barbarian-run-right-down.png":
+{
+	"frame": {"x":82,"y":2,"w":36,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":0,"w":36,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "barbarian-run-down.png",
+	"format": "RGBA8888",
+	"size": {"w":120,"h":44},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:60e556e11b7a72f02db54453cd2672f7:1decfa80710e527e63f0c34878ec9464:a5699a2c93d3bb81d53d49c5e82ecbed$"
+}
+}

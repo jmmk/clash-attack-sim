@@ -1,32 +1,13 @@
-(ns clash-attack-sim.component)
+(ns clash-attack-sim.component
+  (:require-macros [clash-attack-sim.macro :refer [defcomponent]]))
 
-(defrecord Position [name x y])
-(defn position [x y]
-    (Position. :position x y))
-
-(defrecord Renderable [name sprite])
-(defn renderable [sprite]
-   (Renderable. :renderable sprite))
-
-(defrecord Attacker [name target])
-(defn attacker [target]
-    (Attacker. :attacker target))
-
-(defrecord Attackable [name])
-(defn attackable []
-    (Attackable. :attackable))
-
-(defrecord Movement [name velocity])
-(defn movement [velocity]
-  (Movement. :movement velocity))
-
-(defrecord Facing [name angle])
-(defn facing [angle]
-  (Facing. :facing angle))
-
-(defrecord Animation [name sprite-list animation-seq current])
-  (defn animation [sprite-list animation-seq current]
-    (Animation. :animation sprite-list animation-seq current))
+(defcomponent position [x y])
+(defcomponent renderable [sprite])
+(defcomponent attacker [target])
+(defcomponent attackable [])
+(defcomponent movement [velocity])
+(defcomponent facing [angle])
+(defcomponent animation [sprite-list animation-seq current])
 
 ;; TODO
-;; (defrecord Collision [name bounds])
+;; (defcomponent collision [name bounds])

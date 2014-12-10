@@ -1,0 +1,19 @@
+#!/bin/bash
+lein clean
+lein cljsbuild once production
+
+TMP=$(mktemp -d /tmp/clash-attack-sim.XXXXXX)
+git clone git@github.com:jmmk/clash-attack-sim.git "${TMP}"
+GIT="git -C ${TMP}"
+
+$GIT checkout gh-pages
+
+cp -r resources/public/images "${TMP}"
+cp target/production/js/clash-attack-sim.js "${TMP}/javascripts"
+cp resources/public/bower_components/pixi/bin/pixi.js "${TMP}/javascripts"
+
+$GIT add -A
+$GIT commit -m "Update to latest build"
+$GIT push origin gh-pages
+
+rm -rf "${TMP}"

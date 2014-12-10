@@ -21,4 +21,4 @@
                                     :source-paths ["src-cljs"]
                                     :compiler {:output-to "target/production/js/clash-attack-sim.js"
                                                :optimizations :advanced
-                                               :externs ["bower_components/pixi/bin/pixi.js"]}}}})
+                                               :externs ["resources/public/bower_components/pixi/bin/pixi.js"]}}}})

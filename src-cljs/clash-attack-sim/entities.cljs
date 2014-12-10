@@ -8,6 +8,14 @@
 
 (def center-anchor (js/PIXI.Point. 0.5 0.5))
 
+(defn background []
+  (let [grass (js/PIXI.TilingSprite.
+                (sprite/load-texture "images/grass-tile.png")
+                helper/total-height
+                helper/total-width)]
+
+    (ecs/entity (component/background grass))))
+
 (defn barbarian [x y]
   (let [neutral (sprite/from-frame "barbarian-neutral-down.png")
         right (sprite/from-frame "barbarian-run-right-down.png")

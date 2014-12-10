@@ -5,11 +5,6 @@
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.input :as input]))
 
-(def grass (js/PIXI.TilingSprite.
-             (sprite/load-texture "images/grass-tile.png")
-             helper/total-height
-             helper/total-width))
-
 (defn remove-children [stage]
   (.removeChildren stage)
   stage)
@@ -39,10 +34,11 @@
     (set-dimension! "width" width)))
 
 (defn rendering-system [world]
-  (.log js/console "inside rendering-system")
   (let [stage (:stage world)
         renderer (:renderer world)]
-    (add-child stage grass)
+    (doseq [entity (ecs/get-entities-with-component world :background)]
+      (add-child stage
+                 (get-in entity [:background :sprite])))
     (doseq [entity (ecs/get-entities-with-component world :renderable)]
       (let [sprite (ecs/get-sprite entity)
             anchor (ecs/get-anchor entity)

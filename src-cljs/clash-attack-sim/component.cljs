@@ -3,6 +3,7 @@
 
 (defcomponent position [point])
 (defcomponent renderable [sprite anchor size])
+(defcomponent background [sprite])
 (defcomponent attacker [target])
 (defcomponent attackable [])
 (defcomponent movement [velocity])

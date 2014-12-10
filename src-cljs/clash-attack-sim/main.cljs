@@ -35,7 +35,8 @@
       (assoc :stage (init-stage))
       (assoc :frame-count 0)
       (ecs/assoc-entities
-        [(entities/barbarian 160 160)
+        [(entities/background)
+         (entities/barbarian 160 160)
          (entities/town-hall 320 320)])))
 
 ;; Initialize global world state

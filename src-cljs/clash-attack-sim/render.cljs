@@ -19,9 +19,11 @@
       (let [sprite (ecs/get-sprite entity)]
         (when-not (nil? sprite)
           (let [[x y] (ecs/get-position entity)
+                int-x (.round js/Math x)
+                int-y (.round js/Math y)
                 sprite-pos (.-position sprite)]
-            (helper/set-property! sprite-pos "x" x)
-            (helper/set-property! sprite-pos "y" y)
+            (helper/set-property! sprite-pos "x" int-x)
+            (helper/set-property! sprite-pos "y" int-y)
             (.addChild stage sprite)))))
     (.render renderer stage)
     world))

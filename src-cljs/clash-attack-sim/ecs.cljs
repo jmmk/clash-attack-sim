@@ -57,9 +57,7 @@
 
 ;; Helpers
 (defn get-position [entity]
-  (let [c (get-component entity :position)]
-    (when c
-      [(.-x c) (.-y c)])))
+  (get-in entity [:position :point]))
 
 (defn get-target [entity]
   (get-in entity [:attacker :target]))
@@ -72,6 +70,12 @@
 
 (defn get-sprite [entity]
   (get-in entity [:renderable :sprite]))
+
+(defn get-anchor [entity]
+  (get-in entity [:renderable :anchor]))
+
+(defn get-size [entity]
+  (get-in entity [:renderable :size]))
 
 (defn get-sprite-list [entity]
   (get-in entity [:animation :sprite-list]))

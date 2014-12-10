@@ -16,12 +16,14 @@
       (if-not (empty? all-animatable)
       (ecs/assoc-entities world
                           (for [animatable all-animatable]
-                            (let [sprite-list (ecs/get-sprite-list animatable)
+                            (let [anchor (ecs/get-anchor animatable)
+                                  size (ecs/get-size animatable)
+                                  sprite-list (ecs/get-sprite-list animatable)
                                   animation-seq (ecs/get-animation-seq animatable)
                                   current-index (ecs/get-current-index animatable)
                                   next-index (get-next-index animation-seq current-index)
                                   next-sprite-key (get animation-seq next-index)
                                   next-sprite (get sprite-list next-sprite-key)]
                               (ecs/assoc-components animatable [(component/animation sprite-list animation-seq next-index)
-                                                                (component/renderable next-sprite)]))))
+                                                                (component/renderable next-sprite anchor size)]))))
       world))))

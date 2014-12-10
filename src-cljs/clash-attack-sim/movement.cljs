@@ -26,5 +26,5 @@
                                   velocity (ecs/get-velocity mover)
                                   [x y] (ecs/get-position mover)
                                   [final-x final-y] (get-next-position x y angle velocity)]
-                              (ecs/assoc-component mover (component/position final-x final-y)))))
+                              (ecs/assoc-component mover (component/position [final-x final-y])))))
       world)))

@@ -1,8 +1,8 @@
 (ns clash-attack-sim.component
   (:require-macros [clash-attack-sim.macro :refer [defcomponent]]))
 
-(defcomponent position [x y])
-(defcomponent renderable [sprite])
+(defcomponent position [point])
+(defcomponent renderable [sprite anchor size])
 (defcomponent attacker [target])
 (defcomponent attackable [])
 (defcomponent movement [velocity])

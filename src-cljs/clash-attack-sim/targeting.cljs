@@ -2,13 +2,47 @@
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.component :as component]))
 
-(defn get-distance [a b]
-  (let [delta-x (js/Math.abs (- a.x b.x))
-        delta-y (js/Math.abs (- a.y b.y))]
-    (js/Math.sqrt (+ delta-x delta-y))))
+(defn can-attack? [a b attack-range]
+  "Check if the outer bounds of two sprites are within attack-range
+  http://stackoverflow.com/questions/8017541/javascript-canvas-collision-detection"
 
-(defn find-target
-  [attacker all-attackable]
+  (let [a-rect (ecs/get-bounds a)
+        b-rect (ecs/get-bounds b)
+        [a-x a-y] (ecs/get-position a)
+        [b-x b-y] (ecs/get-position b)
+        a-height (.-height a-rect)
+        a-width (.-width a-rect)
+        b-height (.-height b-rect)
+        b-width (.-width b-rect)
+        a-half-height (/ a-height 2)
+        a-half-width (/ a-width 2)
+        b-half-height (/ b-height 2)
+        b-half-width (/ b-width 2)
+        a-left (- (- a-x a-half-width) attack-range)
+        a-right (+ (+ a-x a-half-width) attack-range)
+        b-left (- b-x b-half-width)
+        b-right (+ b-x b-half-width)
+        a-top (- (- a-y a-half-height) attack-range)
+        a-bottom (+ (+ a-y a-half-height) attack-range)
+        b-top (- b-y b-half-height)
+        b-bottom (+ b-y b-half-height)]
+    (not (or (> a-left b-right)
+             (> b-left a-right)
+             (> a-top b-bottom)
+             (> b-top a-bottom)))))
+
+(defn get-distance [a b]
+  "Find straight-line distance between the center of two entities"
+
+  (let [[a-x a-y] (ecs/get-position a)
+        [b-x b-y] (ecs/get-position b)
+        delta-x (js/Math.abs (- a-x b-x))
+        delta-y (js/Math.abs (- a-y b-y))
+        delta-x-squared (js/Math.pow delta-x 2)
+        delta-y-squared (js/Math.pow delta-y 2)]
+    (js/Math.sqrt (+ delta-x-squared delta-y-squared))))
+
+(defn find-target [attacker all-attackable]
   (apply min-key (partial get-distance attacker) all-attackable))
 
 (defn targeting-system [world]
@@ -17,6 +51,10 @@
     (if-not (empty? all-attackable)
       (ecs/assoc-entities world
                       (for [attacker attackers]
-                        (let [target (find-target attacker all-attackable)]
-                          (ecs/assoc-component attacker (component/attacker target)))))
+                        (let [velocity (ecs/get-velocity attacker)
+                              attack-range (ecs/get-attack-range attacker)
+                              target (find-target attacker all-attackable)
+                              should-move? (not (can-attack? attacker target attack-range))]
+                          (ecs/assoc-components attacker [(component/movement velocity should-move?)
+                                                          (component/attacker attack-range target)]))))
       world)))

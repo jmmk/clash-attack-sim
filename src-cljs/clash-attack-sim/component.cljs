@@ -4,9 +4,9 @@
 (defcomponent position [point])
 (defcomponent renderable [sprite anchor size])
 (defcomponent background [sprite])
-(defcomponent attacker [target])
+(defcomponent attacker [attack-range target])
 (defcomponent attackable [])
-(defcomponent movement [velocity])
+(defcomponent movement [velocity moving?])
 (defcomponent facing [angle])
 (defcomponent animation [sprite-list animation-seq current])
 

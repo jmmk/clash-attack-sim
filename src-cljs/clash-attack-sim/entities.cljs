@@ -5,6 +5,7 @@
             [clash-attack-sim.helper :as helper]))
 
 (def ^:const barbarian-speed 0.25)
+(def ^:const barbarian-attack-range 1)
 
 (def center-anchor (js/PIXI.Point. 0.5 0.5))
 
@@ -23,10 +24,10 @@
         sprite-list {:neutral neutral :right right :left left}
         animation-seq [:neutral :left :neutral :right]]
     (ecs/entity (component/position [x y])
-                (component/movement barbarian-speed)
+                (component/movement barbarian-speed false)
                 (component/animation sprite-list animation-seq 0)
                 (component/renderable neutral center-anchor [1 1])
-                (component/attacker nil))))
+                (component/attacker barbarian-attack-range nil))))
 
 (defn town-hall [x y]
   (let [sprite (sprite/from-image "images/town-hall.png")]

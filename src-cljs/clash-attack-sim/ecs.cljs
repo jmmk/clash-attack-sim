@@ -85,3 +85,13 @@
 
 (defn get-current-index [entity]
   (get-in entity [:animation :current]))
+
+(defn get-attack-range [entity]
+  (get-in entity [:attacker :attack-range]))
+
+(defn moving? [entity]
+  (get-in entity [:movement :moving?]))
+
+(defn get-bounds [entity]
+  (.getBounds
+      (get-in entity [:renderable :sprite])))

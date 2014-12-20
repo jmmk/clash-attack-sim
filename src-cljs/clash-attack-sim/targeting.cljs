@@ -45,6 +45,11 @@
 (defn find-target [attacker all-attackable]
   (apply min-key (partial get-distance attacker) all-attackable))
 
+(defn get-action [should-move?]
+  (if should-move?
+    :moving
+    :attacking))
+
 (defn targeting-system [world]
   (let [attackers (ecs/get-entities-with-component world :attacker)
         all-attackable (ecs/get-entities-with-component world :attackable)]
@@ -55,6 +60,7 @@
                               attack-range (ecs/get-attack-range attacker)
                               target (find-target attacker all-attackable)
                               should-move? (not (can-attack? attacker target attack-range))]
-                          (ecs/assoc-components attacker [(component/movement velocity should-move?)
+                          (ecs/assoc-components attacker [(component/movement velocity)
+                                                          (component/action (get-action should-move?))
                                                           (component/attacker attack-range target)]))))
       world)))

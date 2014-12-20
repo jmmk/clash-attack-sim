@@ -24,7 +24,8 @@
         sprite-list {:neutral neutral :right right :left left}
         animation-seq [:neutral :left :neutral :right]]
     (ecs/entity (component/position [x y])
-                (component/movement barbarian-speed false)
+                (component/movement barbarian-speed)
+                (component/action :standing)
                 (component/animation sprite-list animation-seq 0)
                 (component/renderable neutral center-anchor [1 1])
                 (component/attacker barbarian-attack-range nil))))

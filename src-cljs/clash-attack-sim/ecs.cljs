@@ -90,7 +90,7 @@
   (get-in entity [:attacker :attack-range]))
 
 (defn moving? [entity]
-  (get-in entity [:movement :moving?]))
+  (= (get-in entity [:action :state]) :moving))
 
 (defn get-bounds [entity]
   (.getBounds

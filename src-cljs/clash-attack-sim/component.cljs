@@ -6,9 +6,7 @@
 (defcomponent background [sprite])
 (defcomponent attacker [attack-range target])
 (defcomponent attackable [])
-(defcomponent movement [velocity moving?])
+(defcomponent movement [velocity])
+(defcomponent action [state])
 (defcomponent facing [angle])
 (defcomponent animation [sprite-list animation-seq current])
-
-;; TODO
-;; (defcomponent collision [name bounds])

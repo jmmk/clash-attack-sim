@@ -12,10 +12,10 @@
 
 (defn movement-system [world]
   (let [movers (ecs/get-entities-with-components world :movement :facing)
-        movers (filter #(ecs/moving? %) movers)]
-    (if-not (empty? movers)
+        moving (filter #(ecs/moving? %) movers)]
+    (if-not (empty? moving)
       (ecs/assoc-entities world
-                          (for [mover movers]
+                          (for [mover moving]
                             (let [angle (ecs/get-angle mover)
                                   velocity (ecs/get-velocity mover)
                                   [x y] (ecs/get-position mover)

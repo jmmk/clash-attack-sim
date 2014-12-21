@@ -7,6 +7,7 @@
             [clash-attack-sim.animation :as animation]
             [clash-attack-sim.pathing :as pathing]
             [clash-attack-sim.input :as input]
+            [clash-attack-sim.attack :as attack]
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.render :as render]
             [clash-attack-sim.entities :as entities]
@@ -37,6 +38,7 @@
       (ecs/assoc-entities
         [(entities/background)
          (entities/barbarian 160 160)
+         (entities/town-hall 400 400)
          (entities/town-hall 320 320)])))
 
 ;; Initialize global world state
@@ -49,6 +51,7 @@
       (targeting/targeting-system)
       (pathing/pathing-system)
       (movement/movement-system)
+      (attack/attack-system)
       (animation/animation-system)
       (render/rendering-system)))
 

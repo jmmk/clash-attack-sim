@@ -42,8 +42,8 @@
         delta-y-squared (js/Math.pow delta-y 2)]
     (js/Math.sqrt (+ delta-x-squared delta-y-squared))))
 
-(defn find-target [attacker all-attackable]
-  (apply min-key (partial get-distance attacker) all-attackable))
+(defn find-target [attacker alive]
+  (apply min-key (partial get-distance attacker) alive))
 
 (defn get-action [should-move?]
   (if should-move?
@@ -52,15 +52,18 @@
 
 (defn targeting-system [world]
   (let [attackers (ecs/get-entities-with-component world :attacker)
-        all-attackable (ecs/get-entities-with-component world :attackable)]
-    (if-not (empty? all-attackable)
+        attackable (ecs/get-entities-with-component world :attackable)
+        alive (filter #(ecs/alive? %) attackable)]
+    (if-not (empty? alive)
       (ecs/assoc-entities world
                       (for [attacker attackers]
                         (let [velocity (ecs/get-velocity attacker)
                               attack-range (ecs/get-attack-range attacker)
-                              target (find-target attacker all-attackable)
+                              attack-speed (ecs/get-attack-speed attacker)
+                              damage (ecs/get-damage attacker)
+                              target (find-target attacker alive)
                               should-move? (not (can-attack? attacker target attack-range))]
                           (ecs/assoc-components attacker [(component/movement velocity)
                                                           (component/action (get-action should-move?))
-                                                          (component/attacker attack-range target)]))))
+                                                          (component/attacker attack-range attack-speed damage target)]))))
       world)))

@@ -4,8 +4,12 @@
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.helper :as helper]))
 
-(def ^:const barbarian-speed 0.25)
-(def ^:const barbarian-attack-range 1)
+(def barbarian-attributes {:movement-speed 0.25
+                           :attack-range 1
+                           :damage 5
+                           :attack-speed 180})
+
+(def town-hall-attributes {:hp 2000})
 
 (def center-anchor (js/PIXI.Point. 0.5 0.5))
 
@@ -22,16 +26,21 @@
         right (sprite/from-frame "barbarian-run-right-down.png")
         left (sprite/from-frame "barbarian-run-left-down.png")
         sprite-list {:neutral neutral :right right :left left}
-        animation-seq [:neutral :left :neutral :right]]
+        animation-seq [:neutral :left :neutral :right]
+        movement-speed (:movement-speed barbarian-attributes)
+        attack-range (:attack-range barbarian-attributes)
+        damage (:damage barbarian-attributes)
+        attack-speed (:attack-speed barbarian-attributes)]
     (ecs/entity (component/position [x y])
-                (component/movement barbarian-speed)
+                (component/movement movement-speed)
                 (component/action :standing)
                 (component/animation sprite-list animation-seq 0)
                 (component/renderable neutral center-anchor [1 1])
-                (component/attacker barbarian-attack-range nil))))
+                (component/attacker attack-range attack-speed damage nil))))
 
 (defn town-hall [x y]
-  (let [sprite (sprite/from-image "images/town-hall.png")]
+  (let [sprite (sprite/from-image "images/town-hall.png")
+        hp (:hp town-hall-attributes)]
     (ecs/entity (component/position [x y])
             (component/renderable sprite center-anchor [4 4])
-            (component/attackable))))
+            (component/attackable hp))))

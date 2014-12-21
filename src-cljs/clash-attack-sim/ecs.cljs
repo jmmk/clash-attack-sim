@@ -89,8 +89,26 @@
 (defn get-attack-range [entity]
   (get-in entity [:attacker :attack-range]))
 
+(defn get-attack-speed [entity]
+  (get-in entity [:attacker :attack-speed]))
+
+(defn get-damage [entity]
+  (get-in entity [:attacker :damage]))
+
 (defn moving? [entity]
   (= (get-in entity [:action :state]) :moving))
+
+(defn attacking? [entity]
+  (= (get-in entity [:action :state]) :attacking))
+
+(defn get-hp [entity]
+  (get-in entity [:attackable :hp]))
+
+(defn alive? [entity]
+  (> (get-hp entity) 0))
+
+(defn get-attacking [entity attackers]
+  (filter #(= (get-target %) entity) attackers))
 
 (defn get-bounds [entity]
   (.getBounds

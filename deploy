@@ -3,22 +3,42 @@
 readonly TMP_DIR=$(mktemp -d /tmp/clash-attack-sim.XXXXXX)
 readonly REPO=git@github.com:jmmk/clash-attack-sim.git
 readonly GIT="git -C ${TMP_DIR}"
+readonly COMMIT_MSG="Update to latest build"
+
+log() {
+  echo "deploy: $1"
+}
 
 main() {
+  log "lein clean"
   lein clean
-  lein cljsbuild once production
 
-  git clone "${REPO}" "${TMP_DIR}"
+  log "Compile to Javascript"
+  lein cljsbuild once production &> /dev/null
 
-  $GIT checkout gh-pages
+  log "Clone ${REPO}"
+  git clone -q "${REPO}" "${TMP_DIR}"
+
+  log "Checkout gh-pages"
+  $GIT checkout -q gh-pages
+
+  log "Copy assets"
   cp -r resources/public/images "${TMP_DIR}"
+
+  log "Copy compiled javascript"
   cp target/production/js/clash-attack-sim.js "${TMP_DIR}/javascripts"
+
+  log "Copy pixi.js"
   cp resources/public/bower_components/pixi/bin/pixi.js "${TMP_DIR}/javascripts"
 
+  log "Commit: ${COMMIT_MSG}"
   $GIT add -A
-  $GIT commit -m "Update to latest build"
-  $GIT push origin gh-pages
+  $GIT commit -q -m "${COMMIT_MSG}"
 
+  log "Push gh-pages"
+  $GIT push -q origin gh-pages
+
+  log "Remove temp directory"
   rm -rf "${TMP_DIR}"
 }
 

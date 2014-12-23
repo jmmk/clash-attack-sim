@@ -104,10 +104,16 @@
 (defn get-hp [entity]
   (get-in entity [:attackable :hp]))
 
+(defn get-last-attacked [entity]
+  (get-in entity [:attacker :last-attack-frame]))
+
 (defn alive? [entity]
   (> (get-hp entity) 0))
 
-(defn get-attacking [entity attackers]
+(defn did-attack? [entity frame-count]
+  (= frame-count (get-last-attacked entity)))
+
+(defn get-attackers [entity attackers]
   (filter #(= (get-target %) entity) attackers))
 
 (defn get-bounds [entity]

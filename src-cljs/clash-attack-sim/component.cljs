@@ -4,7 +4,7 @@
 (defcomponent position [point])
 (defcomponent renderable [sprite anchor size])
 (defcomponent background [sprite])
-(defcomponent attacker [attack-range attack-speed damage target])
+(defcomponent attacker [attack-range attack-speed damage target last-attack-frame])
 (defcomponent attackable [hp])
 (defcomponent movement [velocity])
 (defcomponent action [state])

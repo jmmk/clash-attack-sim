@@ -61,9 +61,10 @@
                               attack-range (ecs/get-attack-range attacker)
                               attack-speed (ecs/get-attack-speed attacker)
                               damage (ecs/get-damage attacker)
+                              last-attack-frame (ecs/get-last-attacked attacker)
                               target (find-target attacker alive)
                               should-move? (not (can-attack? attacker target attack-range))]
                           (ecs/assoc-components attacker [(component/movement velocity)
                                                           (component/action (get-action should-move?))
-                                                          (component/attacker attack-range attack-speed damage target)]))))
+                                                          (component/attacker attack-range attack-speed damage target last-attack-frame)]))))
       world)))

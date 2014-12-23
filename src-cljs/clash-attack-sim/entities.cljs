@@ -36,7 +36,7 @@
                 (component/action :standing)
                 (component/animation sprite-list animation-seq 0)
                 (component/renderable neutral center-anchor [1 1])
-                (component/attacker attack-range attack-speed damage nil))))
+                (component/attacker attack-range attack-speed damage nil 0))))
 
 (defn town-hall [x y]
   (let [sprite (sprite/from-image "images/town-hall.png")

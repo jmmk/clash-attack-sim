@@ -2,20 +2,12 @@
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.component :as component]))
 
-(defn attack [current-hp attacking frame-count]
-  (if (> current-hp 0)
-    (loop [current-hp current-hp
-           attacking attacking]
-      (if (seq attacking)
-        (let [attacker (first attacking)
-              damage (ecs/get-damage attacker)
-              attack-speed (ecs/get-attack-speed attacker)
-              should-attack? (= (mod frame-count attack-speed) 0)]
-          (if should-attack?
-            (recur (- current-hp damage) (rest attacking))
-            (recur current-hp (rest attacking))))
-        current-hp))
-    current-hp))
+(defn attack [attacker attack-speed frame-count]
+  (let [last-attacked (ecs/get-last-attacked attacker)
+        should-attack? (>= (- frame-count last-attacked) attack-speed)]
+    (if should-attack?
+      frame-count
+      last-attacked)))
 
 (defn attack-system [world]
   (let [attackers (ecs/get-entities-with-component world :attacker)
@@ -25,10 +17,13 @@
     (if-not (and (empty? attacking)
                  (empty? alive))
       (ecs/assoc-entities world
-                          (for [target alive]
-                            (let [attacking (ecs/get-attacking target attacking)
+                          (for [attacker attacking]
+                            (let [target (ecs/get-target attacker)
                                   frame-count (:frame-count world)
                                   current-hp (ecs/get-hp target)
-                                  new-hp (attack current-hp attacking frame-count)]
-                              (ecs/assoc-component target (component/attackable new-hp)))))
+                                  attack-range (ecs/get-attack-range attacker)
+                                  attack-speed (ecs/get-attack-speed attacker)
+                                  damage (ecs/get-damage attacker)
+                                  last-attacked (attack attacker attack-speed frame-count)]
+                              (ecs/assoc-component attacker (component/attacker attack-range attack-speed damage target last-attacked)))))
       world)))

@@ -8,6 +8,7 @@
             [clash-attack-sim.pathing :as pathing]
             [clash-attack-sim.input :as input]
             [clash-attack-sim.attack :as attack]
+            [clash-attack-sim.health :as health]
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.render :as render]
             [clash-attack-sim.entities :as entities]
@@ -52,6 +53,7 @@
       (pathing/pathing-system)
       (movement/movement-system)
       (attack/attack-system)
+      (health/health-system)
       (animation/animation-system)
       (render/rendering-system)))
 

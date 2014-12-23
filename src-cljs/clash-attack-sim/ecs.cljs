@@ -95,20 +95,11 @@
 (defn get-damage [entity]
   (get-in entity [:attacker :damage]))
 
-(defn moving? [entity]
-  (= (get-in entity [:action :state]) :moving))
-
-(defn attacking? [entity]
-  (= (get-in entity [:action :state]) :attacking))
-
 (defn get-hp [entity]
   (get-in entity [:attackable :hp]))
 
 (defn get-last-attacked [entity]
   (get-in entity [:attacker :last-attack-frame]))
-
-(defn alive? [entity]
-  (> (get-hp entity) 0))
 
 (defn did-attack? [entity frame-count]
   (= frame-count (get-last-attacked entity)))

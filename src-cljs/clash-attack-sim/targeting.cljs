@@ -1,4 +1,5 @@
 (ns clash-attack-sim.targeting
+  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.component :as component]))
 
@@ -40,22 +41,18 @@
         delta-y (js/Math.abs (- a-y b-y))
         delta-x-squared (js/Math.pow delta-x 2)
         delta-y-squared (js/Math.pow delta-y 2)]
-    (js/Math.sqrt (+ delta-x-squared delta-y-squared))))
+  (js/Math.sqrt (+ delta-x-squared delta-y-squared))))
 
 (defn find-target [attacker alive]
   (apply min-key (partial get-distance attacker) alive))
 
 (defn get-action [should-move?]
   (if should-move?
-    :moving
-    :attacking))
+    (component/moving)
+    (component/attacking)))
 
-(defn targeting-system [world]
-  (let [attackers (ecs/get-entities-with-component world :attacker)
-        attackable (ecs/get-entities-with-component world :attackable)
-        alive (filter #(ecs/alive? %) attackable)]
-    (if-not (empty? alive)
-      (ecs/assoc-entities world
+(defn get-targets [world attackers alive]
+  (ecs/assoc-entities world
                       (for [attacker attackers]
                         (let [velocity (ecs/get-velocity attacker)
                               attack-range (ecs/get-attack-range attacker)
@@ -64,7 +61,15 @@
                               last-attack-frame (ecs/get-last-attacked attacker)
                               target (find-target attacker alive)
                               should-move? (not (can-attack? attacker target attack-range))]
-                          (ecs/assoc-components attacker [(component/movement velocity)
-                                                          (component/action (get-action should-move?))
-                                                          (component/attacker attack-range attack-speed damage target last-attack-frame)]))))
-      world)))
+                          (-> attacker
+                              (ecs/remove-components [(component/moving)
+                                                      (component/attacking)])
+                              (ecs/assoc-components [(component/movement velocity)
+                                                     (get-action should-move?)
+                                                     (component/attacker attack-range attack-speed damage target last-attack-frame)]))))))
+
+(defsystem targeting [world]
+  :entities {attackers [:attacker]
+             alive [:attackable :alive]}
+  :frame-period 5
+  :fn get-targets)

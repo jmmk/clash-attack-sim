@@ -32,8 +32,8 @@
         damage (:damage barbarian-attributes)
         attack-speed (:attack-speed barbarian-attributes)]
     (ecs/entity (component/position [x y])
+                (component/standing)
                 (component/movement movement-speed)
-                (component/action :standing)
                 (component/animation sprite-list animation-seq 0)
                 (component/renderable neutral center-anchor [1 1])
                 (component/attacker attack-range attack-speed damage nil 0))))
@@ -43,4 +43,5 @@
         hp (:hp town-hall-attributes)]
     (ecs/entity (component/position [x y])
             (component/renderable sprite center-anchor [4 4])
+            (component/alive)
             (component/attackable hp))))

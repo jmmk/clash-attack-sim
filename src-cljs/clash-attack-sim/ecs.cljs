@@ -12,6 +12,12 @@
 (defn assoc-component [entity component]
   (assoc entity (:name component) component))
 
+(defn remove-component [entity component]
+  (dissoc entity (:name component)))
+
+(defn remove-components [entity components]
+  (reduce #(dissoc %1 (:name %2)) entity components))
+
 (defn assoc-components [entity components]
   (reduce #(assoc %1 (:name %2) %2) entity components))
 
@@ -67,6 +73,9 @@
 
 (defn get-angle [entity]
   (get-in entity [:facing :angle]))
+
+(defn get-bg-sprite [entity]
+  (get-in entity [:background :sprite]))
 
 (defn get-sprite [entity]
   (get-in entity [:renderable :sprite]))

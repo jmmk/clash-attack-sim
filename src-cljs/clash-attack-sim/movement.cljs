@@ -1,4 +1,5 @@
 (ns clash-attack-sim.movement
+  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.component :as component]
             [clash-attack-sim.helper :as helper]))
@@ -10,15 +11,16 @@
         next-y (+ this-y (* velocity sin))]
     [next-x next-y]))
 
-(defn movement-system [world]
-  (let [movers (ecs/get-entities-with-components world :movement :facing)
-        moving (filter #(ecs/moving? %) movers)]
-    (if-not (empty? moving)
-      (ecs/assoc-entities world
-                          (for [mover moving]
-                            (let [angle (ecs/get-angle mover)
-                                  velocity (ecs/get-velocity mover)
-                                  [x y] (ecs/get-position mover)
-                                  [final-x final-y] (get-next-position x y angle velocity)]
-                              (ecs/assoc-component mover (component/position [final-x final-y])))))
-      world)))
+(defn update-position [world moving]
+  (ecs/assoc-entities world
+                      (for [mover moving]
+                        (let [angle (ecs/get-angle mover)
+                              velocity (ecs/get-velocity mover)
+                              [x y] (ecs/get-position mover)
+                              [final-x final-y] (get-next-position x y angle velocity)]
+                          (ecs/assoc-component mover (component/position [final-x final-y]))))))
+
+(defsystem movement [world]
+  :entities {moving [:movement :facing :moving]}
+  :frame-period 1
+  :fn update-position)

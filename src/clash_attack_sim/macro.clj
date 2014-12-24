@@ -50,10 +50,10 @@
                       (list 'mod (list ':frame-count 'world) frame-period)
                       0)
                 (list 'let (into [] (apply concat (seq (into {} (for [[k v] entities
-                                                         :let [new-v '(apply ecs/get-entities-with-components (into '[world] v))]]
+                                                         :let [new-v (list 'apply 'ecs/get-entities-with-components (list 'into '[world] v))]]
                                                          [k new-v])))))
-                                 (list 'if-not (into (for [k (keys entities)]
-                                                            (list 'empty? k)) '(and))
+                                 (list 'if (into (for [k (keys entities)]
+                                                            (list 'seq k)) '(and))
                                        (list 'apply function (into '[world] (keys entities)))
                                        'world))
                 'world))))

@@ -1,4 +1,5 @@
 (ns clash-attack-sim.render
+  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.component :as component]
@@ -33,13 +34,12 @@
     (set-dimension! "height" height)
     (set-dimension! "width" width)))
 
-(defn rendering-system [world]
+(defn render [world background renderable]
   (let [stage (:stage world)
         renderer (:renderer world)]
-    (doseq [entity (ecs/get-entities-with-component world :background)]
-      (add-child stage
-                 (get-in entity [:background :sprite])))
-    (doseq [entity (ecs/get-entities-with-component world :renderable)]
+    (doseq [entity background]
+      (add-child stage (ecs/get-bg-sprite entity)))
+    (doseq [entity renderable]
       (let [sprite (ecs/get-sprite entity)
             anchor (ecs/get-anchor entity)
             [height width] (ecs/get-size entity)
@@ -47,9 +47,15 @@
             int-x (.round js/Math x)
             int-y (.round js/Math y)]
         (add-child stage
-          (-> sprite
-              (resize! height width)
-              (set-pos! int-x int-y)
-              (set-anchor! anchor)))))
+                   (-> sprite
+                       (resize! height width)
+                       (set-pos! int-x int-y)
+                       (set-anchor! anchor)))))
     (.render renderer stage)
     world))
+
+(defsystem rendering [world]
+  :entities {background [:background]
+             renderable [:renderable]}
+  :frame-period 1
+  :fn render)

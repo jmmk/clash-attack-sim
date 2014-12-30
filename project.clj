@@ -12,15 +12,16 @@
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-ring "0.8.13"]]
   :ring {:handler clash-attack-sim.core/routes}
+  :source-paths ["src/clj"]
   :cljsbuild {
               :builds {
                        :devel {
-                               :source-paths ["src-cljs"]
+                               :source-paths ["src/cljs"]
                                :compiler {:output-to "resources/public/js/clash-attack-sim.js"
                                           :optimizations :whitespace
                                           :externs ["resources/public/bower_components/pixi/bin/pixi.js"]}}
                        :production {
-                                    :source-paths ["src-cljs"]
+                                    :source-paths ["src/cljs"]
                                     :compiler {:output-to "target/production/js/clash-attack-sim.js"
                                                :optimizations :advanced
                                                :externs ["resources/public/bower_components/pixi/bin/pixi.js"]}}}})

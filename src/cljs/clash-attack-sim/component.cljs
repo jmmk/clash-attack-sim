@@ -9,6 +9,7 @@
 (defcomponent movement [velocity])
 (defcomponent facing [angle])
 (defcomponent animation [sprite-list animation-seq current])
+(defcomponent health-bar [graphics color max-hp])
 
 ;; State components
 (defcomponent attacking [])

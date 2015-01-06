@@ -4,6 +4,7 @@
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.helper :as helper]))
 
+(def ^:const red 0xFF0000)
 (def barbarian-attributes {:movement-speed 0.25
                            :attack-range 1
                            :damage 5
@@ -12,7 +13,7 @@
                            :tile-width 1})
 
 (def town-hall-attributes {:hp 2000
-                           :hp-color 0xFF0000
+                           :hp-color red
                            :tile-height 4
                            :tile-width 4})
 

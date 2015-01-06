@@ -8,7 +8,7 @@
                  [criterium "0.4.3"]
                  [hiccup "1.0.5"]
                  [org.clojars.leanpixel/cljs-uuid-utils "1.0.0-SNAPSHOT"]
-                 [org.clojure/clojurescript "0.0-2371"]]
+                 [org.clojure/clojurescript "0.0-2665"]]
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-ring "0.8.13"]]
   :ring {:handler clash-attack-sim.core/routes}

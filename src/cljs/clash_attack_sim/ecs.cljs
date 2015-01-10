@@ -1,4 +1,5 @@
-(ns clash-attack-sim.ecs)
+(ns clash-attack-sim.ecs
+  (:require [cljs-uuid-utils]))
 
 (defn has-component? [entity name]
     (contains? entity name))

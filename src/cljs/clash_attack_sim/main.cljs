@@ -66,10 +66,8 @@
   (js/requestAnimFrame animation-loop))
 
 ;; Preload Assets
-(def asset-loader (js/PIXI.AssetLoader. #js ["images/barbarian-run-down.json"
-                                             "images/archer-run-down.json"
-                                             "images/grass-tile.png"
-                                             "images/town-hall.png"]
+(def asset-loader (js/PIXI.AssetLoader. #js ["images/spritesheet.json"
+                                             "images/grass-tile.png"]
                                         false))
 ;; TODO Create a Loading Screen
 ;;(defn move-loader [])

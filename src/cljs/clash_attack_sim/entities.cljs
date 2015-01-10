@@ -29,16 +29,16 @@
 
 (defn background []
   (let [grass (js/PIXI.TilingSprite.
-                (sprite/load-texture "images/grass-tile.png")
+                (sprite/texture-from-image "images/grass-tile.png")
                 helper/total-height
                 helper/total-width)]
 
     (ecs/entity (component/background grass))))
 
 (defn barbarian [x y]
-  (let [neutral (sprite/from-frame "barbarian-neutral-down.png")
-        right (sprite/from-frame "barbarian-run-right-down.png")
-        left (sprite/from-frame "barbarian-run-left-down.png")
+  (let [neutral (sprite/from-frame "barbarian/run-down/neutral")
+        right (sprite/from-frame "barbarian/run-down/right")
+        left (sprite/from-frame "barbarian/run-down/left")
         sprite-list {:neutral neutral :right right :left left}
         animation-seq [:neutral :left :neutral :right]
         movement-speed (:movement-speed barbarian-attributes)
@@ -57,9 +57,9 @@
                 (component/attacker attack-range attack-speed damage nil 0))))
 
 (defn archer [x y]
-  (let [neutral (sprite/from-frame "archer-run-neutral-down.png")
-        right (sprite/from-frame "archer-run-right-down.png")
-        left (sprite/from-frame "archer-run-left-down.png")
+  (let [neutral (sprite/from-frame "archer/run-down/neutral")
+        right (sprite/from-frame "archer/run-down/right")
+        left (sprite/from-frame "archer/run-down/left")
         sprite-list {:neutral neutral :right right :left left}
         animation-seq [:neutral :left :neutral :right]
         movement-speed (:movement-speed archer-attributes)
@@ -78,7 +78,7 @@
                 (component/attacker attack-range attack-speed damage nil 0))))
 
 (defn town-hall [x y]
-  (let [sprite (sprite/from-image "images/town-hall.png")
+  (let [sprite (sprite/from-frame "town-hall/town-hall")
         hp (:hp town-hall-attributes)
         hp-color (:hp-color town-hall-attributes)
         tile-height (:tile-height town-hall-attributes)

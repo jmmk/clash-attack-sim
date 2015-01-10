@@ -7,5 +7,8 @@
 (defn from-image [image]
   (.fromImage js/PIXI.Sprite image))
 
-(defn load-texture [filename]
+(defn texture-from-frame [image]
+  (.fromFrame js/PIXI.Texture image))
+
+(defn texture-from-image [filename]
     (.fromImage js/PIXI.Texture filename false))

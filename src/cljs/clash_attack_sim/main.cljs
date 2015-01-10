@@ -67,6 +67,7 @@
 
 ;; Preload Assets
 (def asset-loader (js/PIXI.AssetLoader. #js ["images/barbarian-run-down.json"
+                                             "images/archer-run-down.json"
                                              "images/grass-tile.png"
                                              "images/town-hall.png"]
                                         false))

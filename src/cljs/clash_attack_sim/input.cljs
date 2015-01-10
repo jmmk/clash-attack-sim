@@ -18,6 +18,9 @@
       (ecs/assoc-entities world
                           (for [click last-clicks]
                             (let [x (:x click)
-                                  y (:y click)]
-                              (entities/barbarian x y))))
+                                  y (:y click)
+                                  random-int (+ (.floor js/Math (* (.random js/Math) 639)) 1)]
+                              (if (< random-int x)
+                                (entities/barbarian x y)
+                                (entities/archer x y)))))
       world)))

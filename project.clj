@@ -9,7 +9,7 @@
                  [hiccup "1.0.5"]
                  [org.clojars.leanpixel/cljs-uuid-utils "1.0.0-SNAPSHOT"]
                  [org.clojure/clojurescript "0.0-2665"]]
-  :plugins [[lein-cljsbuild "1.0.3"]
+  :plugins [[lein-cljsbuild "1.0.4"]
             [lein-ring "0.8.13"]]
   :ring {:handler clash-attack-sim.core/routes}
   :source-paths ["src/clj"]

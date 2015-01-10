@@ -38,7 +38,7 @@
 },
 "barbarian/run-down/left":
 {
-	"frame": {"x":170,"y":2,"w":40,"h":40},
+	"frame": {"x":2,"y":44,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -47,7 +47,7 @@
 },
 "barbarian/run-down/neutral":
 {
-	"frame": {"x":212,"y":2,"w":40,"h":40},
+	"frame": {"x":44,"y":44,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -56,7 +56,7 @@
 },
 "barbarian/run-down/right":
 {
-	"frame": {"x":254,"y":2,"w":40,"h":40},
+	"frame": {"x":86,"y":44,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -65,7 +65,7 @@
 },
 "barbarian/selector":
 {
-	"frame": {"x":296,"y":2,"w":40,"h":40},
+	"frame": {"x":128,"y":44,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -74,16 +74,25 @@
 },
 "grass/grass-tile":
 {
-	"frame": {"x":338,"y":2,"w":32,"h":32},
+	"frame": {"x":170,"y":44,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32},
 	"pivot": {"x":0.5,"y":0.5}
 },
+"town-hall/destroyed":
+{
+	"frame": {"x":2,"y":86,"w":160,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
+	"sourceSize": {"w":160,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
 "town-hall/town-hall":
 {
-	"frame": {"x":372,"y":2,"w":26,"h":25},
+	"frame": {"x":164,"y":86,"w":26,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":25},
@@ -95,8 +104,8 @@
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":400,"h":44},
+	"size": {"w":204,"h":248},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f4eccd1421840fac104b20d799cbec5d:024c9285f1911ebb2656a818340afe6e:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f8bab2dbe963d9dfe11e74a721af6692:94baac9a7c6b2c85acc42876894407e2:729adc6043343cfda41c447ce8f464d6$"
 }
 }

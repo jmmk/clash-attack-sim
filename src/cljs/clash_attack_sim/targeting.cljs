@@ -51,26 +51,34 @@
     (component/moving)
     (component/attacking)))
 
-(defn get-targets [world attackers alive]
-  (ecs/assoc-entities world
-                      (for [attacker attackers]
-                        (let [velocity (ecs/get-velocity attacker)
-                              attack-range (ecs/get-attack-range attacker)
-                              attack-speed (ecs/get-attack-speed attacker)
-                              damage (ecs/get-damage attacker)
-                              last-attack-frame (ecs/get-last-attacked attacker)
-                              target (find-target attacker alive)
-                              should-move? (not (can-attack? attacker target attack-range))]
-                          (-> attacker
-                              (ecs/remove-components [(component/moving)
-                                                      (component/attacking)
-                                                      (component/standing)])
-                              (ecs/assoc-components [(component/movement velocity)
-                                                     (get-action should-move?)
-                                                     (component/attacker attack-range attack-speed damage target last-attack-frame)]))))))
+(defn get-targets [world attackers attackable]
+  (let [alive (filter #(ecs/has-component? % :alive) attackable)]
+    (if (seq alive)
+      (ecs/assoc-entities world
+                          (for [attacker attackers]
+                            (let [velocity (ecs/get-velocity attacker)
+                                  attack-range (ecs/get-attack-range attacker)
+                                  attack-speed (ecs/get-attack-speed attacker)
+                                  damage (ecs/get-damage attacker)
+                                  last-attack-frame (ecs/get-last-attacked attacker)
+                                  target (find-target attacker alive)
+                                  should-move? (not (can-attack? attacker target attack-range))]
+                              (-> attacker
+                                  (ecs/remove-components [(component/moving)
+                                                          (component/attacking)
+                                                          (component/standing)])
+                                  (ecs/assoc-components [(component/movement velocity)
+                                                         (get-action should-move?)
+                                                         (component/attacker attack-range attack-speed damage target last-attack-frame)])))))
+      (ecs/assoc-entities world
+                          (for [attacker attackers]
+                            (-> attacker
+                                (ecs/remove-components [(component/moving)
+                                                        (component/attacking)])
+                                (ecs/assoc-component (component/standing))))))))
 
 (defsystem targeting [world]
   :entities {attackers [:attacker]
-             alive [:attackable :alive]}
+             attackable [:attackable]}
   :frame-period 5
   :fn get-targets)

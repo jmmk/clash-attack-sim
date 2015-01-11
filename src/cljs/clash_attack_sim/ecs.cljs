@@ -79,7 +79,7 @@
   (get-in entity [:background :sprite]))
 
 (defn get-sprite [entity]
-  (get-in entity [:renderable :sprite]))
+  (get-in entity [:renderable :current-sprite]))
 
 (defn get-anchor [entity]
   (get-in entity [:renderable :anchor]))
@@ -119,4 +119,4 @@
 
 (defn get-bounds [entity]
   (.getBounds
-      (get-in entity [:renderable :sprite])))
+      (get-in entity [:renderable :current-sprite])))

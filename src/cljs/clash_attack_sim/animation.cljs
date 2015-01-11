@@ -12,8 +12,7 @@
 (defn animate [world animating]
   (ecs/assoc-entities world
                       (for [animatable animating]
-                        (let [anchor (ecs/get-anchor animatable)
-                              size (ecs/get-size animatable)
+                        (let [renderable-component (:renderable animatable)
                               animation-component (:animation animatable)
                               current-animation (ecs/get-current-animation animatable)
                               sprite-list (:frames current-animation)
@@ -23,9 +22,9 @@
                               next-sprite-key (get animation-seq next-index)
                               next-sprite (get sprite-list next-sprite-key)]
                           (ecs/assoc-components animatable [(assoc animation-component :current-frame next-index)
-                                                            (component/renderable next-sprite anchor size)])))))
+                                                            (assoc renderable-component :current-sprite next-sprite)])))))
 
 (defsystem animation [world]
-  :entities {animating [:animation :animating]}
+  :entities {animating [:renderable :animation :animating]}
   :frame-period 15
   :fn animate)

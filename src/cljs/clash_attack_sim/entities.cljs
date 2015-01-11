@@ -55,7 +55,7 @@
                 (component/standing)
                 (component/movement movement-speed)
                 (component/animation animations nil 0)
-                (component/renderable neutral center-anchor [tile-height tile-width])
+                (component/renderable neutral neutral center-anchor [tile-height tile-width])
                 (component/attacker attack-range attack-speed damage nil 0))))
 
 (defn archer [x y]
@@ -78,7 +78,7 @@
                 (component/standing)
                 (component/movement movement-speed)
                 (component/animation animations nil 0)
-                (component/renderable neutral center-anchor [tile-height tile-width])
+                (component/renderable neutral neutral center-anchor [tile-height tile-width])
                 (component/attacker attack-range attack-speed damage nil 0))))
 
 (defn town-hall [x y]
@@ -91,7 +91,8 @@
         pixel-width (helper/get-tile-size tile-width)
         health-bar-height (/ tile-height 4)]
     (ecs/entity (component/position [x y])
-                (component/renderable sprite center-anchor [tile-height tile-width])
+                (component/renderable sprite sprite center-anchor [tile-height tile-width])
                 (component/alive)
+                (component/standing)
                 (component/health-bar (js/PIXI.Graphics.) hp-color hp)
                 (component/attackable hp))))

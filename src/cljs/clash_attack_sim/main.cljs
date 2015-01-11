@@ -12,6 +12,7 @@
             [clash-attack-sim.helper :as helper]
             [clash-attack-sim.render :as render]
             [clash-attack-sim.entities :as entities]
+            [clash-attack-sim.standing :as standing]
             [clash-attack-sim.ecs :as ecs]))
 
 (defn init-renderer []
@@ -55,6 +56,7 @@
       (attack/attack-system)
       (health/health-system)
       (animation/animation-system)
+      (standing/standing-system)
       (render/rendering-system)))
 
 (defn animation-loop []

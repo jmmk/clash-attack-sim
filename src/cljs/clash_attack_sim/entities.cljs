@@ -39,8 +39,10 @@
   (let [neutral (sprite/from-frame "barbarian/run-down/neutral")
         right (sprite/from-frame "barbarian/run-down/right")
         left (sprite/from-frame "barbarian/run-down/left")
-        sprite-list {:neutral neutral :right right :left left}
-        animation-seq [:neutral :left :neutral :right]
+        animations {:moving {:frames {:neutral neutral :right right :left left}
+                             :sequence [:neutral :left :neutral :right]}
+                    :attacking {:frames {:neutral neutral :left left}
+                                :sequence [:neutral :left]}}
         movement-speed (:movement-speed barbarian-attributes)
         attack-range (:attack-range barbarian-attributes)
         damage (:damage barbarian-attributes)
@@ -52,7 +54,7 @@
     (ecs/entity (component/position [x y])
                 (component/standing)
                 (component/movement movement-speed)
-                (component/animation sprite-list animation-seq 0)
+                (component/animation animations nil 0)
                 (component/renderable neutral center-anchor [tile-height tile-width])
                 (component/attacker attack-range attack-speed damage nil 0))))
 
@@ -60,8 +62,10 @@
   (let [neutral (sprite/from-frame "archer/run-down/neutral")
         right (sprite/from-frame "archer/run-down/right")
         left (sprite/from-frame "archer/run-down/left")
-        sprite-list {:neutral neutral :right right :left left}
-        animation-seq [:neutral :left :neutral :right]
+        animations {:moving {:frames {:neutral neutral :right right :left left}
+                             :sequence [:neutral :left :neutral :right]}
+                    :attacking {:frames {:neutral neutral :left left}
+                                :sequence [:neutral :left]}}
         movement-speed (:movement-speed archer-attributes)
         attack-range (:attack-range archer-attributes)
         damage (:damage archer-attributes)
@@ -73,7 +77,7 @@
     (ecs/entity (component/position [x y])
                 (component/standing)
                 (component/movement movement-speed)
-                (component/animation sprite-list animation-seq 0)
+                (component/animation animations nil 0)
                 (component/renderable neutral center-anchor [tile-height tile-width])
                 (component/attacker attack-range attack-speed damage nil 0))))
 

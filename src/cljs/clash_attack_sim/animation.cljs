@@ -14,13 +14,15 @@
                       (for [animatable all-animatable]
                         (let [anchor (ecs/get-anchor animatable)
                               size (ecs/get-size animatable)
-                              sprite-list (ecs/get-sprite-list animatable)
-                              animation-seq (ecs/get-animation-seq animatable)
+                              animation-component (:animation animatable)
+                              current-animation (ecs/get-current-animation animatable)
+                              sprite-list (:frames current-animation)
+                              animation-seq (:sequence current-animation)
                               current-index (ecs/get-current-index animatable)
                               next-index (get-next-index animation-seq current-index)
                               next-sprite-key (get animation-seq next-index)
                               next-sprite (get sprite-list next-sprite-key)]
-                          (ecs/assoc-components animatable [(component/animation sprite-list animation-seq next-index)
+                          (ecs/assoc-components animatable [(assoc animation-component :current-frame next-index)
                                                             (component/renderable next-sprite anchor size)])))))
 
 (defsystem animation [world]

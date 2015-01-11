@@ -87,14 +87,8 @@
 (defn get-size [entity]
   (get-in entity [:renderable :size]))
 
-(defn get-sprite-list [entity]
-  (get-in entity [:animation :sprite-list]))
-
-(defn get-animation-seq [entity]
-  (get-in entity [:animation :animation-seq]))
-
 (defn get-current-index [entity]
-  (get-in entity [:animation :current]))
+  (get-in entity [:animation :current-frame]))
 
 (defn get-attack-range [entity]
   (get-in entity [:attacker :attack-range]))
@@ -110,6 +104,12 @@
 
 (defn get-last-attacked [entity]
   (get-in entity [:attacker :last-attack-frame]))
+
+(defn get-current-animation [entity]
+  (let [animation-component (get-in entity [:animation])
+        animations (:animations animation-component)
+        current (:current-animation animation-component)]
+    (current animations)))
 
 (defn did-attack? [entity frame-count]
   (= frame-count (get-last-attacked entity)))

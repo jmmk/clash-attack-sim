@@ -8,7 +8,7 @@
 (defcomponent attackable [hp])
 (defcomponent movement [velocity])
 (defcomponent facing [angle])
-(defcomponent animation [sprite-list animation-seq current])
+(defcomponent animation [animations current-animation current-frame])
 (defcomponent health-bar [graphics color max-hp])
 
 ;; State components

@@ -13,6 +13,7 @@
 
 ;; State components
 (defcomponent attacking [])
+(defcomponent animating [])
 (defcomponent alive [])
 (defcomponent dead [])
 (defcomponent moving [])

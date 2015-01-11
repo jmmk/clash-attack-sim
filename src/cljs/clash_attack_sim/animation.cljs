@@ -9,9 +9,9 @@
       0
       (inc current-index))))
 
-(defn animate [world all-animatable]
+(defn animate [world animating]
   (ecs/assoc-entities world
-                      (for [animatable all-animatable]
+                      (for [animatable animating]
                         (let [anchor (ecs/get-anchor animatable)
                               size (ecs/get-size animatable)
                               animation-component (:animation animatable)
@@ -26,6 +26,6 @@
                                                             (component/renderable next-sprite anchor size)])))))
 
 (defsystem animation [world]
-  :entities {all-animatable [:animation]}
+  :entities {animating [:animation :animating]}
   :frame-period 15
   :fn animate)

@@ -9,6 +9,7 @@
     (if should-attack?
       frame-count
       last-attacked)))
+
 (defn get-animation [animation-component]
   (if (= (:current-animation animation-component) :attacking)
     animation-component
@@ -27,6 +28,7 @@
                               animation-component (:animation attacker)]
                           (ecs/assoc-components attacker
                                                 [(component/attacker attack-range attack-speed damage target last-attacked)
+                                                 (component/animating)
                                                  (get-animation animation-component)])))))
 
 (defsystem attack [world]

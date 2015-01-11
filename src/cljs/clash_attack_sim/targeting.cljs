@@ -63,7 +63,8 @@
                               should-move? (not (can-attack? attacker target attack-range))]
                           (-> attacker
                               (ecs/remove-components [(component/moving)
-                                                      (component/attacking)])
+                                                      (component/attacking)
+                                                      (component/standing)])
                               (ecs/assoc-components [(component/movement velocity)
                                                      (get-action should-move?)
                                                      (component/attacker attack-range attack-speed damage target last-attack-frame)]))))))

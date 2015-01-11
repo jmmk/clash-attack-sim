@@ -26,6 +26,7 @@
                               [final-x final-y] (get-next-position x y angle velocity)]
                           (ecs/assoc-components mover
                                                 [(component/position [final-x final-y])
+                                                 (component/animating)
                                                  (get-animation animation-component)])))))
 
 (defsystem movement [world]

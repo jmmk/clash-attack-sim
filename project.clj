@@ -3,6 +3,7 @@
   :url "https://www.github.com/jmmk/clash-attack-sim"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [bidi "1.18.7"]
+                 [cljsjs/react "0.13.1-0"]
                  [criterium "0.4.3"]
                  [hiccup "1.0.5"]
                  [reagent "0.5.0"]

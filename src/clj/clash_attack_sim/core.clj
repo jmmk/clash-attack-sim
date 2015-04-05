@@ -4,10 +4,9 @@
             [clash-attack-sim.template :as template]))
 
 (def routes ["" {"/" :index
-                 "" :resources}])
+                 "" (resources {:prefix "public"})}])
 
 (def handlers {:index (fn [req]
-                        (response (template/index)))
-               :resources (resources {:prefix "public"})})
+                        (response (template/index)))})
 
-(def run (make-handler routes handlers))
+(def run (make-handler routes (some-fn handlers #(when (fn? %) %))))

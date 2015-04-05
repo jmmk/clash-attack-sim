@@ -1,5 +1,5 @@
 (ns clash-attack-sim.ecs
-  (:require [cljs-uuid-utils]))
+  (:require [cljs-uuid-utils.core :as uuid]))
 
 (defn has-component? [entity name]
     (contains? entity name))
@@ -22,12 +22,8 @@
 (defn assoc-components [entity components]
   (reduce #(assoc %1 (:name %2) %2) entity components))
 
-(defn uuid []
-  (cljs-uuid-utils/uuid-string (cljs-uuid-utils/make-random-uuid)))
-
-(defn identifier
-  ([] (identifier (uuid)))
-  ([id] {:name :identifier :id id}))
+(defn identifier []
+  {:name :identifier :id (str (uuid/make-random-uuid))})
 
 (defn entity [& components]
   (let [entity (reduce #(assoc %1 (:name %2) %2) {} components)]

@@ -1,8 +1,5 @@
 (ns clash-attack-sim.main
-  (:require [cljs-uuid-utils]
-            [goog.Timer]
-            [goog.events]
-            [clash-attack-sim.targeting :as targeting]
+  (:require [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
             [clash-attack-sim.animation :as animation]
             [clash-attack-sim.pathing :as pathing]

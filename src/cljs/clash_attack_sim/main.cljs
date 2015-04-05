@@ -1,5 +1,7 @@
 (ns clash-attack-sim.main
-  (:require [clash-attack-sim.targeting :as targeting]
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as re-frame]
+            [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
             [clash-attack-sim.animation :as animation]
             [clash-attack-sim.pathing :as pathing]
@@ -11,6 +13,19 @@
             [clash-attack-sim.entities :as entities]
             [clash-attack-sim.standing :as standing]
             [clash-attack-sim.ecs :as ecs]))
+
+(enable-console-print!)
+
+(defn canvas []
+  [:div {:id "battlefield"
+         :style {:margin-left "auto"
+                 :margin-right "auto"
+                 :width "640px"
+                 :height "640px"}}])
+
+(defn game []
+  [:div {:id "clash-attack-sim"}
+   [canvas]])
 
 (defn init-renderer []
   (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
@@ -29,19 +44,15 @@
   (let [frame-count (:frame-count world)]
     (assoc world :frame-count (inc frame-count))))
 
-(defn generate-world [world]
-  (-> world
-      (assoc :renderer (init-renderer))
-      (assoc :stage (init-stage))
-      (assoc :frame-count 0)
+(defn new-game-state []
+  (-> {:renderer (init-renderer)
+       :stage (init-stage)
+       :frame-count 0}
       (ecs/assoc-entities
         [(entities/background)
          (entities/barbarian 160 160)
          (entities/town-hall 400 400)
          (entities/town-hall 320 320)])))
-
-;; Initialize global world state
-(def world (atom {}))
 
 (defn next-world [world]
   (-> world
@@ -56,13 +67,24 @@
       (standing/standing-system)
       (render/rendering-system)))
 
-(defn animation-loop []
-  (swap! world next-world)
-  (js/requestAnimFrame animation-loop))
+(defn re-trigger-timer []
+  (reagent/next-tick (fn [] (re-frame/dispatch [:next-tick]))))
 
-(defn initialize []
-  (swap! world generate-world)
-  (js/requestAnimFrame animation-loop))
+(re-frame/register-handler
+  :next-tick
+  (fn [db _]
+    (re-trigger-timer)
+    (next-world db)))
+
+(re-frame/register-handler
+  :new-game
+  (fn [db _]
+    (re-trigger-timer)
+    (new-game-state)))
+
+(defn init! []
+  (reagent/render [game] (.getElementById js/document "game"))
+  (re-frame/dispatch-sync [:new-game]))
 
 ;; Preload Assets
 (def asset-loader (js/PIXI.AssetLoader. #js ["images/spritesheet.json"
@@ -71,5 +93,5 @@
 ;; TODO Create a Loading Screen
 ;;(defn move-loader [])
 ;;(helper/set-property! asset-loader "onProgress" move-loader)
-(helper/set-property! asset-loader "onComplete" initialize)
+(helper/set-property! asset-loader "onComplete" init!)
 (.load asset-loader)

@@ -5,6 +5,8 @@
                  [bidi "1.18.7"]
                  [criterium "0.4.3"]
                  [hiccup "1.0.5"]
+                 [reagent "0.5.0"]
+                 [re-frame "0.2.0"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]
                  [org.clojure/clojurescript "0.0-3126"]]
   :plugins [[lein-cljsbuild "1.0.5"]

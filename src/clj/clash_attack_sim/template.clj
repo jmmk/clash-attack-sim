@@ -6,7 +6,6 @@
     [:head
      [:title "Clash of Clans Simulator"]]
     [:body
-     [:div {:id "battlefield"
-            :style "margin-left: auto; margin-right: auto; width: 640px; height: 640px;"}]
-      (include-js "bower_components/pixi/bin/pixi.js")
-      (include-js "js/clash-attack-sim.js")]))
+     [:div {:id "game"}]
+     (include-js "bower_components/pixi/bin/pixi.js")
+     (include-js "js/clash-attack-sim.js")]))

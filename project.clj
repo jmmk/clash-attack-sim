@@ -6,9 +6,9 @@
                  [criterium "0.4.3"]
                  [hiccup "1.0.5"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]
-                 [org.clojure/clojurescript "0.0-2665"]]
-  :plugins [[lein-cljsbuild "1.0.4"]
-            [lein-ring "0.8.13"]]
+                 [org.clojure/clojurescript "0.0-3126"]]
+  :plugins [[lein-cljsbuild "1.0.5"]
+            [lein-ring "0.9.3"]]
   :ring {:handler clash-attack-sim.core/run}
   :source-paths ["src/clj"]
   :cljsbuild {

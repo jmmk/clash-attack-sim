@@ -14,7 +14,7 @@ main() {
   lein clean
 
   log "Compile to Javascript"
-  lein cljsbuild once production &> /dev/null
+  lein cljsbuild once production
 
   log "Clone ${REPO}"
   git clone -q "${REPO}" "${TMP_DIR}"
@@ -27,9 +27,6 @@ main() {
 
   log "Copy compiled javascript"
   cp target/production/js/clash-attack-sim.js "${TMP_DIR}/javascripts"
-
-  log "Copy pixi.js"
-  cp resources/public/bower_components/pixi/bin/pixi.js "${TMP_DIR}/javascripts"
 
   log "Commit: ${COMMIT_MSG}"
   $GIT add -A

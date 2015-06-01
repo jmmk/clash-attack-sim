@@ -7,5 +7,4 @@
      [:title "Clash of Clans Simulator"]]
     [:body
      [:div {:id "game"}]
-     (include-js "bower_components/pixi/bin/pixi.js")
      (include-js "js/clash-attack-sim.js")]))

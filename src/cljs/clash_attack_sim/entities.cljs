@@ -1,5 +1,6 @@
 (ns clash-attack-sim.entities
-  (:require [clash-attack-sim.ecs :as ecs]
+  (:require [cljsjs.pixi]
+            [clash-attack-sim.ecs :as ecs]
             [clash-attack-sim.component :as component]
             [clash-attack-sim.sprite :as sprite]
             [clash-attack-sim.helper :as helper]))
@@ -28,7 +29,7 @@
 (def center-anchor (js/PIXI.Point. 0.5 0.5))
 
 (defn background []
-  (let [grass (js/PIXI.TilingSprite.
+  (let [grass (js/PIXI.extras.TilingSprite.
                 (sprite/texture-from-image "images/grass-tile.png")
                 helper/total-height
                 helper/total-width)]

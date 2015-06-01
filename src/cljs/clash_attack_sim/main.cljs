@@ -1,6 +1,7 @@
 (ns clash-attack-sim.main
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
+            [cljsjs.pixi]
             [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
             [clash-attack-sim.animation :as animation]
@@ -35,7 +36,7 @@
     renderer))
 
 (defn init-stage []
-  (let [stage (js/PIXI.Stage. 0xFFFFFF)]
+  (let [stage (js/PIXI.Container. 0xFFFFFF)]
     (helper/set-property! stage "interactive" true)
     (helper/set-property! stage "click" input/stage-click)
     stage))
@@ -87,11 +88,12 @@
   (re-frame/dispatch-sync [:new-game]))
 
 ;; Preload Assets
-(def asset-loader (js/PIXI.AssetLoader. #js ["images/spritesheet.json"
-                                             "images/grass-tile.png"]
-                                        false))
+(def asset-loader js/PIXI.loader)
+(.add asset-loader #js ["images/spritesheet.json"
+                        "images/grass-tile.png"])
+
 ;; TODO Create a Loading Screen
 ;;(defn move-loader [])
-;;(helper/set-property! asset-loader "onProgress" move-loader)
-(helper/set-property! asset-loader "onComplete" init!)
+;;(.on asset-loader "progress" move-loader)
+(.once asset-loader "complete" init!)
 (.load asset-loader)

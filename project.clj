@@ -7,6 +7,7 @@
                  [criterium "0.4.3"]
                  [hiccup "1.0.5"]
                  [reagent "0.5.0"]
+                 [cljsjs/pixi "3.0.6-0"]
                  [re-frame "0.2.0"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.1"]
                  [org.clojure/clojurescript "0.0-3126"]]
@@ -19,10 +20,8 @@
                        :devel {
                                :source-paths ["src/cljs"]
                                :compiler {:output-to "resources/public/js/clash-attack-sim.js"
-                                          :optimizations :whitespace
-                                          :externs ["resources/public/bower_components/pixi/bin/pixi.js"]}}
+                                          :optimizations :whitespace}}
                        :production {
                                     :source-paths ["src/cljs"]
                                     :compiler {:output-to "target/production/js/clash-attack-sim.js"
-                                               :optimizations :advanced
-                                               :externs ["resources/public/bower_components/pixi/bin/pixi.js"]}}}})
+                                               :optimizations :advanced}}}})

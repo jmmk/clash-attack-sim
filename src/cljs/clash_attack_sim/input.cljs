@@ -4,8 +4,9 @@
 
 (def clicks (atom []))
 
-(defn stage-click [data]
-  (let [target (.-target data)
+(defn stage-click [event]
+  (let [data (.-data event)
+        target (.-target event)
         point (.getLocalPosition data target)
         x (.-x point)
         y (.-y point)]

@@ -94,7 +94,11 @@
                         "images/grass-tile.png"])
 
 ;; TODO Create a Loading Screen
-;;(defn move-loader [])
-;;(.on asset-loader "progress" move-loader)
+; (defn move-loader [loader resources]
+;   (println (.-progress loader))
+;   (println (.-name resources)))
+
+; (.on asset-loader "progress" move-loader)
+
 (.once asset-loader "complete" init)
 (.load asset-loader)

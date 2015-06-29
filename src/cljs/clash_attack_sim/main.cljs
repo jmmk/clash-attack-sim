@@ -2,6 +2,7 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [cljsjs.pixi]
+            [goog.dom :as dom]
             [clash-attack-sim.targeting :as targeting]
             [clash-attack-sim.movement :as movement]
             [clash-attack-sim.animation :as animation]
@@ -31,7 +32,7 @@
 (defn init-renderer []
   (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
         view (.-view renderer)
-        anchor (.getElementById js/document "battlefield")]
+        anchor (dom/getElement "battlefield")]
     (.appendChild anchor view)
     renderer))
 
@@ -83,8 +84,8 @@
     (re-trigger-timer)
     (new-game-state)))
 
-(defn init! []
-  (reagent/render [game] (.getElementById js/document "game"))
+(defn init []
+  (reagent/render [game] (dom/getElement "game"))
   (re-frame/dispatch-sync [:new-game]))
 
 ;; Preload Assets
@@ -95,5 +96,5 @@
 ;; TODO Create a Loading Screen
 ;;(defn move-loader [])
 ;;(.on asset-loader "progress" move-loader)
-(.once asset-loader "complete" init!)
+(.once asset-loader "complete" init)
 (.load asset-loader)

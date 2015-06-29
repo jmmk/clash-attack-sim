@@ -10,3 +10,6 @@ pom.xml.asc
 resources/public/js
 resources/public/bower_components
 .DS_STORE
+figwheel_server.log
+/out/
+/out-adv/

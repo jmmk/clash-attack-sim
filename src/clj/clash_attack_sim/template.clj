@@ -7,4 +7,4 @@
      [:title "Clash of Clans Simulator"]]
     [:body
      [:div {:id "game"}]
-     (include-js "js/clash-attack-sim.js")]))
+     (include-js "resources/public/js/clash-attack-sim.js")]))

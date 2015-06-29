@@ -3,8 +3,8 @@
             [ring.util.response :refer [response]]
             [clash-attack-sim.template :as template]))
 
-(def routes ["" {"/" :index
-                 "" (resources {:prefix "public"})}])
+(def routes ["/" {"" :index
+                 "resources/" (resources {})}])
 
 (def handlers {:index (fn [req]
                         (response (template/index)))})

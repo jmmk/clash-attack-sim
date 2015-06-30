@@ -26,7 +26,7 @@ main() {
   cp -r resources/public/images "${TMP_DIR}"
 
   log "Copy compiled javascript"
-  cp target/production/js/clash-attack-sim.js "${TMP_DIR}/javascripts"
+  cp resources/public/js/clash-attack-sim.js "${TMP_DIR}/javascripts"
 
   log "Commit: ${COMMIT_MSG}"
   $GIT add -A

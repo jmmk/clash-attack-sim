@@ -4,16 +4,21 @@
   :dependencies [[org.clojure/clojure "1.7.0-RC2"]
                  [bidi "1.19.1"]
                  [hiccup "1.0.5"]
-                 [cljsjs/pixi "3.0.6-0"]
+                 [cljsjs/pixi "3.0.7-0"]
                  [re-frame "0.4.1"]
                  [org.clojure/clojurescript "0.0-3308"]]
 
   :plugins [[lein-cljsbuild "1.0.6"]
+            [lein-ring "0.9.6"]
             [lein-figwheel "0.3.5"]]
 
   :source-paths ["src/clj"]
 
-  :clean-targets ["resources/public/js/out" "out-adv"]
+  :clean-targets ^{:protect false} ["resources/public/js/clash-attack-sim.js"
+                                    "resources/public/js/out"
+                                    "out-adv"]
+
+  :ring {:handler clash-attack-sim.core/run}
 
   :figwheel {:ring-handler clash-attack-sim.core/run}
 

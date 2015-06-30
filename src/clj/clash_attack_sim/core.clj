@@ -4,7 +4,8 @@
             [clash-attack-sim.template :as template]))
 
 (def routes ["/" {"" :index
-                 "resources/" (resources {})}])
+                 "resources/" (resources {})
+                  "images/" (resources {:prefix "public/images/"})}])
 
 (def handlers {:index (fn [req]
                         (response (template/index)))})

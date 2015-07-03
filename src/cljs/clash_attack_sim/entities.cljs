@@ -30,7 +30,7 @@
 
 (defn background []
   (let [grass (js/PIXI.extras.TilingSprite.
-                (sprite/texture-from-image "images/grass-tile.png")
+                (sprite/texture-from-image "assets/images/grass-tile.png")
                 helper/total-height
                 helper/total-width)]
 

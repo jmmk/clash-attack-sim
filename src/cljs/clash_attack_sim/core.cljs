@@ -1,4 +1,4 @@
-(ns clash-attack-sim.main
+(ns clash-attack-sim.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [cljsjs.pixi]
@@ -84,14 +84,14 @@
     (re-trigger-timer)
     (new-game-state)))
 
-(defn init []
+(defn ^:export init []
   (reagent/render [game] (dom/getElement "game"))
   (re-frame/dispatch-sync [:new-game]))
 
 ;; Preload Assets
 (def asset-loader js/PIXI.loader)
-(.add asset-loader #js ["images/spritesheet.json"
-                        "images/grass-tile.png"])
+(.add asset-loader #js ["assets/images/spritesheet.json"
+                        "assets/images/grass-tile.png"])
 
 ;; TODO Create a Loading Screen
 ; (defn move-loader [loader resources]

@@ -2,7 +2,7 @@
 
 readonly TMP_DIR=$(mktemp -d /tmp/clash-attack-sim.XXXXXX)
 readonly REPO=git@github.com:jmmk/clash-attack-sim.git
-readonly GIT="git -C ${TMP_DIR}"
+readonly GIT="git -C $TMP_DIR"
 readonly COMMIT_MSG="Update to latest build"
 
 log() {
@@ -16,27 +16,30 @@ main() {
   log "Compile to Javascript"
   lein cljsbuild once production
 
-  log "Clone ${REPO}"
-  git clone -q "${REPO}" "${TMP_DIR}"
+  log "Clone $REPO"
+  git clone -q "$REPO" "$TMP_DIR"
 
   log "Checkout gh-pages"
   $GIT checkout -q gh-pages
 
-  log "Copy assets"
-  cp -r resources/public/images "${TMP_DIR}"
+  log "Remove old assets"
+  rm -rf "$TMP_DIR/assets"
 
-  log "Copy compiled javascript"
-  cp resources/public/js/clash-attack-sim.js "${TMP_DIR}/javascripts"
+  log "Copy new assets"
+  cp -r assets "$TMP_DIR"
 
-  log "Commit: ${COMMIT_MSG}"
+  log "Copy index.html"
+  cp index.html "$TMP_DIR"
+
+  log "Commit: $COMMIT_MSG"
   $GIT add -A
-  $GIT commit -q -m "${COMMIT_MSG}"
+  $GIT commit -q -m "$COMMIT_MSG"
 
   log "Push gh-pages"
   $GIT push -q origin gh-pages
 
   log "Remove temp directory"
-  rm -rf "${TMP_DIR}"
+  rm -rf "$TMP_DIR"
 }
 
-main "${@}"
+main "$@"

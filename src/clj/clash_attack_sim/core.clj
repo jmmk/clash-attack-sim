@@ -1,13 +1,8 @@
 (ns clash-attack-sim.core
-  (:require [bidi.ring :refer [make-handler resources]]
-            [ring.util.response :refer [response]]
-            [clash-attack-sim.template :as template]))
+  (:require [bidi.ring :as br]
+            [ring.util.response :as resp]))
 
-(def routes ["/" {"" :index
-                 "resources/" (resources {})
-                  "images/" (resources {:prefix "public/images/"})}])
+(def routes ["/" {"" (fn [_] (resp/file-response "index.html"))
+                 "assets/" (br/files {:dir "assets/"})}])
 
-(def handlers {:index (fn [req]
-                        (response (template/index)))})
-
-(def run (make-handler routes (some-fn handlers #(when (fn? %) %))))
+(def handler (br/make-handler routes))

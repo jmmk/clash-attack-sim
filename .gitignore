@@ -2,3 +2,5 @@
 resources
 target
 .lein-repl-history
+/assets/js/out
+/assets/js/out-adv

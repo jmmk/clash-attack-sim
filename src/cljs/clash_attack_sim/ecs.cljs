@@ -1,10 +1,7 @@
 (ns clash-attack-sim.ecs)
 
-(defn has-component? [entity name]
-    (contains? entity name))
-
 (defn has-components? [entity components]
-  (every? (partial has-component? entity) components))
+  (every? (partial contains? entity) components))
 
 (defn get-component [entity component]
   (get entity component))
@@ -38,7 +35,7 @@
 
 (defn get-entities-with-component [world component]
   (let [entities (get-entities world)]
-    (filter #(has-component? % component) entities)))
+    (filter #(contains? % component) entities)))
 
 (defn get-entities-with-components [world & components]
   (let [entities (get-entities world)]

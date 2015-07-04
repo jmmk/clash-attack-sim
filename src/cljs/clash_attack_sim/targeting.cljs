@@ -52,7 +52,7 @@
     (component/attacking)))
 
 (defn get-targets [world attackers attackable]
-  (let [alive (filter #(ecs/has-component? % :alive) attackable)]
+  (let [alive (filter #(contains? % :alive) attackable)]
     (if (seq alive)
       (ecs/assoc-entities world
                           (for [attacker attackers]

@@ -1,6 +1,8 @@
 (ns clash-attack-sim.core
+  (:require-macros [reagent.ratom :refer [reaction]])
   (:require [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
+            [re-frame.core :as rf]
+            [re-com.core :as rc]
             [cljsjs.pixi]
             [goog.dom :as dom]
             [clash-attack-sim.targeting :as targeting]
@@ -26,8 +28,16 @@
                  :height "640px"}}])
 
 (defn game []
-  [:div {:id "clash-attack-sim"}
-   [canvas]])
+  (let [paused? (rf/subscribe [:paused?])]
+    (fn []
+      [rc/v-box
+       :gap "20px"
+       :margin "20px"
+       :align :center
+       :children [[canvas]
+                  [rc/button
+                   :label (if @paused? "Unpause" "Pause")
+                   :on-click #(rf/dispatch [:toggle-pause])]]])))
 
 (defn init-renderer []
   (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
@@ -50,6 +60,7 @@
   (-> {:renderer (init-renderer)
        :stage (init-stage)
        :frame-count 0
+       :paused? false
        :entities {}}
       (ecs/assoc-entities
         [(entities/background)
@@ -71,15 +82,27 @@
       (render/rendering-system)))
 
 (defn re-trigger-timer []
-  (reagent/next-tick (fn [] (re-frame/dispatch [:next-tick]))))
+  (reagent/next-tick (fn [] (rf/dispatch [:next-tick]))))
 
-(re-frame/register-handler
+(rf/register-sub
+  :paused?
+  (fn [db]
+    (reaction (:paused? @db))))
+
+(rf/register-handler
   :next-tick
   (fn [db _]
     (re-trigger-timer)
-    (next-world db)))
+    (if (:paused? db)
+      db
+      (next-world db))))
 
-(re-frame/register-handler
+(rf/register-handler
+  :toggle-pause
+  (fn [db _]
+    (update-in db [:paused?] not)))
+
+(rf/register-handler
   :new-game
   (fn [db _]
     (re-trigger-timer)
@@ -87,7 +110,7 @@
 
 (defn ^:export init []
   (reagent/render [game] (dom/getElement "game"))
-  (re-frame/dispatch-sync [:new-game]))
+  (rf/dispatch-sync [:new-game]))
 
 ;; Preload Assets
 (def asset-loader js/PIXI.loader)

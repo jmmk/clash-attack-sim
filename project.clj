@@ -6,6 +6,7 @@
                  [bidi "1.20.0"]
                  [cljsjs/pixi "3.0.7-0"]
                  [re-frame "0.4.1"]
+                 [re-com "0.5.4"]
                  [ring/ring-core "1.3.2"]
                  [org.clojure/clojurescript "0.0-3308"]]
 

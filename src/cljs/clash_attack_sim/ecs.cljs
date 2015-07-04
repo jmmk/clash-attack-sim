@@ -13,19 +13,21 @@
   (dissoc entity (:name component)))
 
 (defn remove-components [entity components]
-  (reduce #(dissoc %1 (:name %2)) entity components))
+  (persistent! (reduce #(dissoc! %1 (:name %2))
+                       (transient entity)
+                       components)))
 
 (defn assoc-components [entity components]
-  (reduce #(assoc %1 (:name %2) %2) entity components))
+  (into entity (map (fn [c] [(:name c) c])) components))
 
 (defn identifier []
-  {:name :identifier :id (str (random-uuid))})
+  {:name :identifier :id (random-uuid)})
 
 (defn entity [& components]
-  (let [entity (reduce #(assoc %1 (:name %2) %2) {} components)]
+  (let [entity (into {} (map (fn [c] [(:name c) c])) components)]
     (if (contains? entity :identifier)
       entity
-      (assoc-component entity (identifier)))))
+      (assoc entity :identifier (identifier)))))
 
 (defn get-entity [world id]
   (get-in world [:entities id]))
@@ -49,10 +51,9 @@
     (assoc-in world [:entities id] entity)))
 
 (defn assoc-entities [world entities]
-  (let [entity-map (or (:entities world) {})]
-    (->> entities
-         (reduce #(assoc %1 (get-id %2) %2) entity-map)
-         (assoc world :entities))))
+  (assoc world :entities (into (:entities world)
+                               (map (fn [e] [(get-id e) e]))
+                               entities)))
 
 ;; Helpers
 (defn get-position [entity]

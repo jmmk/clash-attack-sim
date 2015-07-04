@@ -49,7 +49,8 @@
 (defn new-game-state []
   (-> {:renderer (init-renderer)
        :stage (init-stage)
-       :frame-count 0}
+       :frame-count 0
+       :entities {}}
       (ecs/assoc-entities
         [(entities/background)
          (entities/barbarian 160 160)

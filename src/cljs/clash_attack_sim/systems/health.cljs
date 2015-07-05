@@ -1,7 +1,7 @@
-(ns clash-attack-sim.health
+(ns clash-attack-sim.systems.health
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.components :as components]))
 
 (defn attack [current-hp did-attack frame-count]
   (loop [current-hp current-hp
@@ -14,8 +14,8 @@
 
 (defn get-state [hp]
   (if (> hp 0)
-    (component/alive)
-    (component/dead)))
+    (components/alive)
+    (components/dead)))
 
 (defn update-hp [world attacking alive]
   (let [frame-count (:frame-count world)
@@ -26,8 +26,8 @@
                                 current-hp (ecs/get-hp target)
                                 new-hp (attack current-hp did-attack frame-count)]
                             (-> target
-                                (ecs/remove-component (component/alive))
-                                (ecs/assoc-components [(component/attackable new-hp)
+                                (ecs/remove-component (components/alive))
+                                (ecs/assoc-components [(components/attackable new-hp)
                                                        (get-state new-hp)])))))))
 
 (defsystem health [world]

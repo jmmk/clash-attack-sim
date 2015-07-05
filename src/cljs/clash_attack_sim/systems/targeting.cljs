@@ -1,7 +1,7 @@
-(ns clash-attack-sim.targeting
+(ns clash-attack-sim.systems.targeting
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.components :as components]))
 
 (defn can-attack? [a b attack-range]
   "Check if the outer bounds of two sprites are within attack-range
@@ -48,8 +48,8 @@
 
 (defn get-action [should-move?]
   (if should-move?
-    (component/moving)
-    (component/attacking)))
+    (components/moving)
+    (components/attacking)))
 
 (defn get-targets [world attackers attackable]
   (let [alive (filter #(contains? % :alive) attackable)]
@@ -64,18 +64,18 @@
                                   target (find-target attacker alive)
                                   should-move? (not (can-attack? attacker target attack-range))]
                               (-> attacker
-                                  (ecs/remove-components [(component/moving)
-                                                          (component/attacking)
-                                                          (component/standing)])
-                                  (ecs/assoc-components [(component/movement velocity)
+                                  (ecs/remove-components [(components/moving)
+                                                          (components/attacking)
+                                                          (components/standing)])
+                                  (ecs/assoc-components [(components/movement velocity)
                                                          (get-action should-move?)
-                                                         (component/attacker attack-range attack-speed damage target last-attack-frame)])))))
+                                                         (components/attacker attack-range attack-speed damage target last-attack-frame)])))))
       (ecs/assoc-entities world
                           (for [attacker attackers]
                             (-> attacker
-                                (ecs/remove-components [(component/moving)
-                                                        (component/attacking)])
-                                (ecs/assoc-component (component/standing))))))))
+                                (ecs/remove-components [(components/moving)
+                                                        (components/attacking)])
+                                (ecs/assoc-component (components/standing))))))))
 
 (defsystem targeting [world]
   :entities {attackers [:attacker]

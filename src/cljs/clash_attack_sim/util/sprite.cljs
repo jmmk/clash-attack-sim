@@ -1,6 +1,6 @@
-(ns clash-attack-sim.sprite
+(ns clash-attack-sim.util.sprite
   (:require [cljsjs.pixi]
-            [clash-attack-sim.helper :as helper]))
+            [clash-attack-sim.util.helper :as helper]))
 
 (defn from-frame [image]
   (.fromFrame js/PIXI.Sprite image))

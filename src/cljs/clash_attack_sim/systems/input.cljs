@@ -1,5 +1,5 @@
-(ns clash-attack-sim.input
-  (:require [clash-attack-sim.ecs :as ecs]
+(ns clash-attack-sim.systems.input
+  (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.entities :as entities]))
 
 (def clicks (atom []))

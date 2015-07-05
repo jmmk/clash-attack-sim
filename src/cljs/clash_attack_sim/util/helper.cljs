@@ -1,4 +1,4 @@
-(ns clash-attack-sim.helper)
+(ns clash-attack-sim.util.helper)
 
 ;; Tiles are 16px x 16px
 (def^:const tile-size 16)

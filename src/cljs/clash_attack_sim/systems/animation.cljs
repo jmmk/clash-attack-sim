@@ -1,7 +1,6 @@
-(ns clash-attack-sim.animation
+(ns clash-attack-sim.systems.animation
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]))
 
 (defn get-next-index [animation-seq current-index]
   (let [length (count animation-seq)]

@@ -5,18 +5,18 @@
             [re-com.core :as rc]
             [cljsjs.pixi]
             [goog.dom :as dom]
-            [clash-attack-sim.targeting :as targeting]
-            [clash-attack-sim.movement :as movement]
-            [clash-attack-sim.animation :as animation]
-            [clash-attack-sim.pathing :as pathing]
-            [clash-attack-sim.input :as input]
-            [clash-attack-sim.attack :as attack]
-            [clash-attack-sim.health :as health]
-            [clash-attack-sim.helper :as helper]
-            [clash-attack-sim.render :as render]
+            [clash-attack-sim.systems.targeting :as targeting]
+            [clash-attack-sim.systems.movement :as movement]
+            [clash-attack-sim.systems.animation :as animation]
+            [clash-attack-sim.systems.pathing :as pathing]
+            [clash-attack-sim.systems.input :as input]
+            [clash-attack-sim.systems.attack :as attack]
+            [clash-attack-sim.systems.health :as health]
+            [clash-attack-sim.systems.render :as render]
+            [clash-attack-sim.systems.standing :as standing]
+            [clash-attack-sim.util.helper :as helper]
             [clash-attack-sim.entities :as entities]
-            [clash-attack-sim.standing :as standing]
-            [clash-attack-sim.ecs :as ecs]))
+            [clash-attack-sim.engine.ecs :as ecs]))
 
 (enable-console-print!)
 

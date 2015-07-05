@@ -2,10 +2,10 @@
 ;; Looks at each entity, its target, and its surroundings
 ;; to determine which direction it should move
 
-(ns clash-attack-sim.pathing
+(ns clash-attack-sim.systems.pathing
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.components :as components]))
 
 (defn get-angle [target-x target-y this-x this-y]
   (let [delta-y (- target-y this-y)
@@ -19,7 +19,7 @@
                               [target-x target-y] (ecs/get-position target)
                               [attacker-x attacker-y] (ecs/get-position attacker)
                               angle (get-angle target-x target-y attacker-x attacker-y)]
-                          (ecs/assoc-component attacker (component/facing angle))))))
+                          (ecs/assoc-component attacker (components/facing angle))))))
 
 (defsystem pathing [world]
   :entities {attackers [:attacker :movement]}

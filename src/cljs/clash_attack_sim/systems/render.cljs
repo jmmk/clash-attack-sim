@@ -1,10 +1,7 @@
-(ns clash-attack-sim.render
+(ns clash-attack-sim.systems.render
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.helper :as helper]
-            [clash-attack-sim.component :as component]
-            [clash-attack-sim.sprite :as sprite]
-            [clash-attack-sim.input :as input]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.util.helper :as helper]))
 
 (defn remove-children [stage]
   (.removeChildren stage)

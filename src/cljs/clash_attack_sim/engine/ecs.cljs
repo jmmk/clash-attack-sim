@@ -1,4 +1,4 @@
-(ns clash-attack-sim.ecs)
+(ns clash-attack-sim.engine.ecs)
 
 (defn has-components? [entity components]
   (every? (partial contains? entity) components))

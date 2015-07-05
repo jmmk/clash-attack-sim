@@ -1,7 +1,7 @@
-(ns clash-attack-sim.attack
+(ns clash-attack-sim.systems.attack
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.components :as components]))
 
 (defn attack [attacker attack-speed frame-count]
   (let [last-attacked (ecs/get-last-attacked attacker)
@@ -27,8 +27,8 @@
                               last-attacked (attack attacker attack-speed frame-count)
                               animation-component (:animation attacker)]
                           (ecs/assoc-components attacker
-                                                [(component/attacker attack-range attack-speed damage target last-attacked)
-                                                 (component/animating)
+                                                [(components/attacker attack-range attack-speed damage target last-attacked)
+                                                 (components/animating)
                                                  (get-animation animation-component)])))))
 
 (defsystem attack [world]

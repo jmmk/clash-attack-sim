@@ -1,8 +1,8 @@
-(ns clash-attack-sim.movement
+(ns clash-attack-sim.systems.movement
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]
-            [clash-attack-sim.component :as component]
-            [clash-attack-sim.helper :as helper]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]
+            [clash-attack-sim.components :as components]
+            [clash-attack-sim.util.helper :as helper]))
 
 (defn get-next-position [this-x this-y angle velocity]
   (let [cos (.cos js/Math angle)
@@ -25,8 +25,8 @@
                               [x y] (ecs/get-position mover)
                               [final-x final-y] (get-next-position x y angle velocity)]
                           (ecs/assoc-components mover
-                                                [(component/position [final-x final-y])
-                                                 (component/animating)
+                                                [(components/position [final-x final-y])
+                                                 (components/animating)
                                                  (get-animation animation-component)])))))
 
 (defsystem movement [world]

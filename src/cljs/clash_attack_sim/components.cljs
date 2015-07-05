@@ -1,4 +1,4 @@
-(ns clash-attack-sim.component
+(ns clash-attack-sim.components
   (:require-macros [clash-attack-sim.macro :refer [defcomponent]]))
 
 (defcomponent position [point])

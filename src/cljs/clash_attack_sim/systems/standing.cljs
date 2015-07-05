@@ -1,6 +1,6 @@
-(ns clash-attack-sim.standing
+(ns clash-attack-sim.systems.standing
   (:require-macros [clash-attack-sim.macro :refer [defsystem]])
-  (:require [clash-attack-sim.ecs :as ecs]))
+  (:require [clash-attack-sim.engine.ecs :as ecs]))
 
 (defn stand-still [world standing]
   (ecs/assoc-entities world

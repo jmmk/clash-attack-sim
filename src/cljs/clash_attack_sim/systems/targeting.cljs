@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.targeting
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.components :as components]))
 
@@ -51,8 +50,10 @@
     (components/moving)
     (components/attacking)))
 
-(defn get-targets [world attackers attackable]
-  (let [alive (filter #(contains? % :alive) attackable)]
+(defn get-targets [world entities]
+  (let [attackers (filter #(contains? % :attacker) entities)
+        attackable (filter #(contains? % :attackable) entities)
+        alive (filter #(contains? % :alive) attackable)]
     (if (seq alive)
       (ecs/assoc-entities world
                           (for [attacker attackers]
@@ -77,8 +78,10 @@
                                                         (components/attacking)])
                                 (ecs/assoc-component (components/standing))))))))
 
-(defsystem targeting [world]
-  :entities {attackers [:attacker]
-             attackable [:attackable]}
-  :frame-period 5
-  :fn get-targets)
+(def targeting-system
+  (ecs/system
+    :name :targeting
+    :matcher-fn #(or (contains? % :attacker)
+                     (contains? % :attackable))
+    :run-when (ecs/frame-period 5)
+    :update-fn get-targets))

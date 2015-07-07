@@ -1,15 +1,16 @@
 (ns clash-attack-sim.systems.standing
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]))
 
-(defn stand-still [world standing]
+(defn stand-still [world entities]
   (ecs/assoc-entities world
-                      (for [entity standing]
+                      (for [entity entities]
                         (let [renderable-component (:renderable entity)
                               default-sprite (:default-sprite renderable-component)]
                           (ecs/assoc-component entity (assoc renderable-component :current-sprite default-sprite))))))
 
-(defsystem standing [world]
-  :entities {standing [:standing]}
-  :frame-period 5
-  :fn stand-still)
+(def standing-system
+  (ecs/system
+    :name :standing
+    :matcher-fn #(contains? % :standing)
+    :run-when (ecs/frame-period 5)
+    :update-fn stand-still))

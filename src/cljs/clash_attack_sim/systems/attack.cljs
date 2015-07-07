@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.attack
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.components :as components]))
 
@@ -15,9 +14,9 @@
     animation-component
     (assoc animation-component :current-animation :attacking :current-frame 0)))
 
-(defn do-attacks [world attacking]
+(defn do-attacks [world entities]
   (ecs/assoc-entities world
-                      (for [attacker attacking]
+                      (for [attacker entities]
                         (let [target (ecs/get-target attacker)
                               frame-count (:frame-count world)
                               current-hp (ecs/get-hp target)
@@ -31,9 +30,9 @@
                                                  (components/animating)
                                                  (get-animation animation-component)])))))
 
-(defsystem attack [world]
-  :entities {attacking [:attacker :attacking]}
-  :frame-period 5
-  :fn do-attacks)
-
-
+(def attack-system
+  (ecs/system
+    :name :attack
+    :matcher-fn #(ecs/has-components? % [:attacker :attacking])
+    :run-when (ecs/frame-period 5)
+    :update-fn do-attacks))

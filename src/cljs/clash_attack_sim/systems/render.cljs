@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.render
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.util.helper :as helper]))
 
@@ -31,8 +30,10 @@
     (set-dimension! "height" height)
     (set-dimension! "width" width)))
 
-(defn render [world background renderable rectangles]
-  (let [stage (:stage world)
+(defn render [world entities]
+  (let [background (filter #(contains? % :background) entities)
+        renderable (filter #(contains? % :renderable) entities)
+        stage (:stage world)
         renderer (:renderer world)]
     (doseq [entity background]
       (add-child! stage (ecs/get-bg-sprite entity)))
@@ -71,8 +72,9 @@
     (.render renderer stage)
     world))
 
-(defsystem rendering [world]
-  :entities {background [:background]
-             renderable [:renderable]}
-  :frame-period 1
-  :fn render)
+(def rendering-system
+  (ecs/system
+    :name :rendering
+    :matcher-fn #(or (contains? % :background)
+                     (contains? % :renderable))
+    :update-fn render))

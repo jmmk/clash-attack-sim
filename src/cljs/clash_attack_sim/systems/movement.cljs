@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.movement
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.components :as components]
             [clash-attack-sim.util.helper :as helper]))
@@ -16,9 +15,9 @@
     animation-component
     (assoc animation-component :current-animation :moving :current-frame 0)))
 
-(defn update-position [world moving]
+(defn update-position [world entities]
   (ecs/assoc-entities world
-                      (for [mover moving]
+                      (for [mover entities]
                         (let [animation-component (:animation mover)
                               angle (ecs/get-angle mover)
                               velocity (ecs/get-velocity mover)
@@ -29,7 +28,8 @@
                                                  (components/animating)
                                                  (get-animation animation-component)])))))
 
-(defsystem movement [world]
-  :entities {moving [:movement :facing :moving]}
-  :frame-period 1
-  :fn update-position)
+(def movement-system
+  (ecs/system
+    :name :movement
+    :matcher-fn #(ecs/has-components? % [:movement :facing :moving])
+    :update-fn update-position))

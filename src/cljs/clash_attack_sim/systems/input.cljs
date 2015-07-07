@@ -1,6 +1,6 @@
 (ns clash-attack-sim.systems.input
   (:require [clash-attack-sim.engine.ecs :as ecs]
-            [clash-attack-sim.entities :as entities]))
+            [clash-attack-sim.entities :as e]))
 
 (def clicks (atom []))
 
@@ -12,7 +12,7 @@
         y (.-y point)]
     (swap! clicks conj {:x x :y y})))
 
-(defn input-system [world]
+(defn handle-input [world entities]
   (let [last-clicks @clicks]
     (reset! clicks [])
     (if (seq last-clicks)
@@ -22,6 +22,11 @@
                                   y (:y click)
                                   random-int (+ (.floor js/Math (* (.random js/Math) 639)) 1)]
                               (if (< random-int x)
-                                (entities/barbarian x y)
-                                (entities/archer x y)))))
+                                (e/barbarian x y)
+                                (e/archer x y)))))
       world)))
+
+(def input-system
+  (ecs/system
+    :name :input
+    :update-fn handle-input))

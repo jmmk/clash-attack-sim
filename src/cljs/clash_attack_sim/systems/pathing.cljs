@@ -3,7 +3,6 @@
 ;; to determine which direction it should move
 
 (ns clash-attack-sim.systems.pathing
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.components :as components]))
 
@@ -12,16 +11,18 @@
         delta-x (- target-x this-x)]
     (.atan2 js/Math delta-y delta-x)))
 
-(defn update-facing [world attackers]
+(defn update-facing [world entities]
   (ecs/assoc-entities world
-                      (for [attacker attackers]
+                      (for [attacker entities]
                         (let [target (ecs/get-target attacker)
                               [target-x target-y] (ecs/get-position target)
                               [attacker-x attacker-y] (ecs/get-position attacker)
                               angle (get-angle target-x target-y attacker-x attacker-y)]
                           (ecs/assoc-component attacker (components/facing angle))))))
 
-(defsystem pathing [world]
-  :entities {attackers [:attacker :movement]}
-  :frame-period 5
-  :fn update-facing)
+(def pathing-system
+  (ecs/system
+    :name :pathing
+    :matcher-fn #(ecs/has-components? % [:attacker :movement])
+    :run-when (ecs/frame-period 5)
+    :update-fn update-facing))

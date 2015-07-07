@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.health
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]
             [clash-attack-sim.components :as components]))
 
@@ -17,8 +16,10 @@
     (components/alive)
     (components/dead)))
 
-(defn update-hp [world attacking alive]
-  (let [frame-count (:frame-count world)
+(defn update-hp [world entities]
+  (let [attacking (filter #(ecs/has-components? % [:attacker :attacking]) entities)
+        alive (filter #(ecs/has-components? % [:attackable :alive]) entities)
+        frame-count (:frame-count world)
         did-attack (filter #(ecs/did-attack? % frame-count) attacking)]
     (ecs/assoc-entities world
                         (for [target alive]
@@ -30,8 +31,10 @@
                                 (ecs/assoc-components [(components/attackable new-hp)
                                                        (get-state new-hp)])))))))
 
-(defsystem health [world]
-  :entities {attacking [:attacker :attacking]
-             alive [:attackable :alive]}
-  :frame-period 5
-  :fn update-hp)
+(def health-system
+  (ecs/system
+    :name :health
+    :matcher-fn #(or (ecs/has-components? % [:attacker :attacking])
+                     (ecs/has-components? % [:attackable :alive]))
+    :run-when (ecs/frame-period 5)
+    :update-fn update-hp))

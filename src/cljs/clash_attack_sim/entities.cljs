@@ -33,8 +33,7 @@
                 (sprite/texture-from-image "assets/images/grass-tile.png")
                 helper/total-height
                 helper/total-width)]
-
-    (ecs/entity (components/background grass))))
+    (ecs/entity [(components/background grass)])))
 
 (defn barbarian [x y]
   (let [neutral (sprite/from-frame "barbarian/run-down/neutral")
@@ -52,12 +51,12 @@
         tile-width (:tile-width barbarian-attributes)
         pixel-height (helper/get-tile-size tile-height)
         pixel-width (helper/get-tile-size tile-width)]
-    (ecs/entity (components/position [x y])
-                (components/standing)
-                (components/movement movement-speed)
-                (components/animation animations nil 0)
-                (components/renderable neutral neutral center-anchor [tile-height tile-width])
-                (components/attacker attack-range attack-speed damage nil 0))))
+    (ecs/entity [(components/position [x y])
+                 (components/standing)
+                 (components/movement movement-speed)
+                 (components/animation animations nil 0)
+                 (components/renderable neutral neutral center-anchor [tile-height tile-width])
+                 (components/attacker attack-range attack-speed damage nil 0)])))
 
 (defn archer [x y]
   (let [neutral (sprite/from-frame "archer/run-down/neutral")
@@ -75,12 +74,12 @@
         tile-width (:tile-width archer-attributes)
         pixel-height (helper/get-tile-size tile-height)
         pixel-width (helper/get-tile-size tile-width)]
-    (ecs/entity (components/position [x y])
-                (components/standing)
-                (components/movement movement-speed)
-                (components/animation animations nil 0)
-                (components/renderable neutral neutral center-anchor [tile-height tile-width])
-                (components/attacker attack-range attack-speed damage nil 0))))
+    (ecs/entity [(components/position [x y])
+                 (components/standing)
+                 (components/movement movement-speed)
+                 (components/animation animations nil 0)
+                 (components/renderable neutral neutral center-anchor [tile-height tile-width])
+                 (components/attacker attack-range attack-speed damage nil 0)])))
 
 (defn town-hall [x y]
   (let [sprite (sprite/from-frame "town-hall/town-hall")
@@ -91,9 +90,9 @@
         pixel-height (helper/get-tile-size tile-height)
         pixel-width (helper/get-tile-size tile-width)
         health-bar-height (/ tile-height 4)]
-    (ecs/entity (components/position [x y])
-                (components/renderable sprite sprite center-anchor [tile-height tile-width])
-                (components/alive)
-                (components/standing)
-                (components/health-bar (js/PIXI.Graphics.) hp-color hp)
-                (components/attackable hp))))
+    (ecs/entity [(components/position [x y])
+                 (components/renderable sprite sprite center-anchor [tile-height tile-width])
+                 (components/alive)
+                 (components/standing)
+                 (components/health-bar (js/PIXI.Graphics.) hp-color hp)
+                 (components/attackable hp)])))

@@ -1,5 +1,4 @@
 (ns clash-attack-sim.systems.animation
-  (:require-macros [clash-attack-sim.macro :refer [defsystem]])
   (:require [clash-attack-sim.engine.ecs :as ecs]))
 
 (defn get-next-index [animation-seq current-index]
@@ -8,9 +7,9 @@
       0
       (inc current-index))))
 
-(defn animate [world animating]
+(defn animate [world entities]
   (ecs/assoc-entities world
-                      (for [animatable animating]
+                      (for [animatable entities]
                         (let [renderable-component (:renderable animatable)
                               animation-component (:animation animatable)
                               current-animation (ecs/get-current-animation animatable)
@@ -23,7 +22,9 @@
                           (ecs/assoc-components animatable [(assoc animation-component :current-frame next-index)
                                                             (assoc renderable-component :current-sprite next-sprite)])))))
 
-(defsystem animation [world]
-  :entities {animating [:renderable :animation :animating]}
-  :frame-period 15
-  :fn animate)
+(def animation-system
+  (ecs/system
+    :name :animation
+    :matcher-fn #(ecs/has-components? % [:renderable :animation :animating])
+    :run-when (ecs/frame-period 15)
+    :update-fn animate))

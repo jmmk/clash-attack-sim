@@ -53,15 +53,24 @@
     stage))
 
 (defn frame-counter [world]
-  (let [frame-count (:frame-count world)]
-    (assoc world :frame-count (inc frame-count))))
+  (update world :frame-count inc))
+
+(defn add-systems [world]
+  (ecs/add-systems world
+                   [input/input-system
+                    targeting/targeting-system
+                    pathing/pathing-system
+                    movement/movement-system
+                    attack/attack-system
+                    health/health-system
+                    animation/animation-system
+                    standing/standing-system
+                    render/rendering-system]))
 
 (defn new-game-state []
-  (-> {:renderer (init-renderer)
-       :stage (init-stage)
-       :frame-count 0
-       :paused? false
-       :entities {}}
+  (-> ecs/world
+      (assoc :renderer (init-renderer) :stage (init-stage))
+      (add-systems)
       (ecs/assoc-entities
         [(entities/background)
          (entities/barbarian 160 160)
@@ -71,18 +80,10 @@
 (defn next-world [world]
   (-> world
       (frame-counter)
-      (input/input-system)
-      (targeting/targeting-system)
-      (pathing/pathing-system)
-      (movement/movement-system)
-      (attack/attack-system)
-      (health/health-system)
-      (animation/animation-system)
-      (standing/standing-system)
-      (render/rendering-system)))
+      (ecs/call-systems)))
 
 (defn re-trigger-timer []
-  (reagent/next-tick (fn [] (rf/dispatch [:next-tick]))))
+  (reagent/next-tick #(rf/dispatch [:next-tick])))
 
 (rf/register-sub
   :paused?

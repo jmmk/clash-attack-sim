@@ -35,6 +35,7 @@
         renderable (filter #(contains? % :renderable) entities)
         stage (:stage world)
         renderer (:renderer world)]
+    (remove-children stage)
     (doseq [entity background]
       (add-child! stage (ecs/get-bg-sprite entity)))
     (doseq [entity renderable]

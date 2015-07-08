@@ -1,7 +1,8 @@
-(ns clash-attack-sim.engine.ecs)
+(ns clash-attack-sim.engine.ecs
+  (:require [tailrecursion.priority-map :as pm]))
 
 (def world {:paused? false
-            :systems {}
+            :systems (pm/priority-map)
             :entities {}
             :frame-count 0})
 
@@ -64,7 +65,7 @@
   (update world :entities #(assoc % (:id entity) entity)))
 
 (defn add-systems [world systems]
-  (update world :systems #(into % (id-map :id) systems)))
+  (update world :systems #(into % systems)))
 
 (defn assoc-entities [world entities]
   (update world :entities #(into % (id-map :id) entities)))
@@ -77,7 +78,7 @@
                 (update-fn world (filter matcher-fn entities))
                 world)))
           world
-          (vals (:systems world))))
+          (keys (:systems world))))
 
 ;; Helpers
 (defn get-position [entity]

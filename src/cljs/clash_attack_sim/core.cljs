@@ -57,15 +57,15 @@
 
 (defn add-systems [world]
   (ecs/add-systems world
-                   [input/input-system
-                    targeting/targeting-system
-                    pathing/pathing-system
-                    movement/movement-system
-                    attack/attack-system
-                    health/health-system
-                    animation/animation-system
-                    standing/standing-system
-                    render/rendering-system]))
+                   [[input/input-system 1]
+                    [targeting/targeting-system 3]
+                    [pathing/pathing-system 4]
+                    [movement/movement-system 5]
+                    [attack/attack-system 5]
+                    [health/health-system 6]
+                    [animation/animation-system 8]
+                    [standing/standing-system 9]
+                    [render/rendering-system 10]]))
 
 (defn new-game-state []
   (-> ecs/world

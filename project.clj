@@ -2,6 +2,7 @@
   :description "Clash of Clans Attack Simulator"
   :url "https://www.github.com/jmmk/clash-attack-sim"
   :dependencies [[org.clojure/clojure "1.7.0"]
+                 [tailrecursion/cljs-priority-map "1.1.0"]
                  [org.clojure/tools.reader "0.10.0-alpha1"]
                  [bidi "1.20.0"]
                  [cljsjs/pixi "3.0.7-0"]

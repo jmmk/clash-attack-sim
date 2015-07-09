@@ -1,6 +1,6 @@
 (ns clash-attack-sim.entities
   (:require [cljsjs.pixi]
-            [clash-attack-sim.engine.ecs :as ecs]
+            [maye.core :as ecs]
             [clash-attack-sim.components :as components]
             [clash-attack-sim.util.sprite :as sprite]
             [clash-attack-sim.util.helper :as helper]))

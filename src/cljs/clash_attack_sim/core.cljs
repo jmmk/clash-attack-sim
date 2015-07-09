@@ -16,7 +16,7 @@
             [clash-attack-sim.systems.standing :as standing]
             [clash-attack-sim.util.helper :as helper]
             [clash-attack-sim.entities :as entities]
-            [clash-attack-sim.engine.ecs :as ecs]))
+            [maye.core :as ecs]))
 
 (enable-console-print!)
 

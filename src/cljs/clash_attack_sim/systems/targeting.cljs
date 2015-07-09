@@ -1,15 +1,16 @@
 (ns clash-attack-sim.systems.targeting
-  (:require [clash-attack-sim.engine.ecs :as ecs]
+  (:require [clash-attack-sim.util.helper :as h]
+            [maye.core :as ecs]
             [clash-attack-sim.components :as components]))
 
 (defn can-attack? [a b attack-range]
   "Check if the outer bounds of two sprites are within attack-range
   http://stackoverflow.com/questions/8017541/javascript-canvas-collision-detection"
 
-  (let [a-rect (ecs/get-bounds a)
-        b-rect (ecs/get-bounds b)
-        [a-x a-y] (ecs/get-position a)
-        [b-x b-y] (ecs/get-position b)
+  (let [a-rect (h/get-bounds a)
+        b-rect (h/get-bounds b)
+        [a-x a-y] (h/get-position a)
+        [b-x b-y] (h/get-position b)
         a-height (.-height a-rect)
         a-width (.-width a-rect)
         b-height (.-height b-rect)
@@ -34,8 +35,8 @@
 (defn get-distance [a b]
   "Find straight-line distance between the center of two entities"
 
-  (let [[a-x a-y] (ecs/get-position a)
-        [b-x b-y] (ecs/get-position b)
+  (let [[a-x a-y] (h/get-position a)
+        [b-x b-y] (h/get-position b)
         delta-x (js/Math.abs (- a-x b-x))
         delta-y (js/Math.abs (- a-y b-y))
         delta-x-squared (js/Math.pow delta-x 2)
@@ -57,11 +58,11 @@
     (if (seq alive)
       (ecs/assoc-entities world
                           (for [attacker attackers]
-                            (let [velocity (ecs/get-velocity attacker)
-                                  attack-range (ecs/get-attack-range attacker)
-                                  attack-speed (ecs/get-attack-speed attacker)
-                                  damage (ecs/get-damage attacker)
-                                  last-attack-frame (ecs/get-last-attacked attacker)
+                            (let [velocity (h/get-velocity attacker)
+                                  attack-range (h/get-attack-range attacker)
+                                  attack-speed (h/get-attack-speed attacker)
+                                  damage (h/get-damage attacker)
+                                  last-attack-frame (h/get-last-attacked attacker)
                                   target (find-target attacker alive)
                                   should-move? (not (can-attack? attacker target attack-range))]
                               (-> attacker

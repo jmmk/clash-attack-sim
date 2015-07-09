@@ -1,5 +1,5 @@
 (ns clash-attack-sim.systems.render
-  (:require [clash-attack-sim.engine.ecs :as ecs]
+  (:require [maye.core :as ecs]
             [clash-attack-sim.util.helper :as helper]))
 
 (defn remove-children [stage]
@@ -37,12 +37,12 @@
         renderer (:renderer world)]
     (remove-children stage)
     (doseq [entity background]
-      (add-child! stage (ecs/get-bg-sprite entity)))
+      (add-child! stage (helper/get-bg-sprite entity)))
     (doseq [entity renderable]
-      (let [sprite (ecs/get-sprite entity)
-            anchor (ecs/get-anchor entity)
-            [height width] (ecs/get-size entity)
-            [x y] (ecs/get-position entity)
+      (let [sprite (helper/get-sprite entity)
+            anchor (helper/get-anchor entity)
+            [height width] (helper/get-size entity)
+            [x y] (helper/get-position entity)
             int-x (.round js/Math x)
             int-y (.round js/Math y)
             health-bar (:health-bar entity)]
@@ -55,11 +55,11 @@
           (let [graphics (:graphics health-bar)
                 max-hp (:max-hp health-bar)
                 hp-color (:color health-bar)
-                current-hp (ecs/get-hp entity)
+                current-hp (helper/get-hp entity)
                 hp-percentage (/ current-hp max-hp)
                 hp-height (helper/get-tile-size (/ height 8))
                 hp-width (helper/get-tile-size (* hp-percentage width))
-                sprite-rect (ecs/get-bounds entity)
+                sprite-rect (helper/get-bounds entity)
                 top-left-x (.-x sprite-rect)
                 top-left-y (.-y sprite-rect)
                 hp-x top-left-x

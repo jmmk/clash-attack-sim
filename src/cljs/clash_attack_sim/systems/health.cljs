@@ -1,5 +1,6 @@
 (ns clash-attack-sim.systems.health
-  (:require [clash-attack-sim.engine.ecs :as ecs]
+  (:require [maye.core :as ecs]
+            [clash-attack-sim.util.helper :as h]
             [clash-attack-sim.components :as components]))
 
 (defn attack [current-hp did-attack frame-count]
@@ -7,7 +8,7 @@
          did-attack did-attack]
     (if (seq did-attack)
       (let [attacker (first did-attack)
-            damage (ecs/get-damage attacker)]
+            damage (h/get-damage attacker)]
           (recur (- current-hp damage) (rest did-attack)))
       current-hp)))
 
@@ -20,11 +21,11 @@
   (let [attacking (filter #(ecs/has-components? % [:attacker :attacking]) entities)
         alive (filter #(ecs/has-components? % [:attackable :alive]) entities)
         frame-count (:frame-count world)
-        did-attack (filter #(ecs/did-attack? % frame-count) attacking)]
+        did-attack (filter #(h/did-attack? % frame-count) attacking)]
     (ecs/assoc-entities world
                         (for [target alive]
-                          (let [did-attack (ecs/get-attackers target did-attack)
-                                current-hp (ecs/get-hp target)
+                          (let [did-attack (h/get-attackers target did-attack)
+                                current-hp (h/get-hp target)
                                 new-hp (attack current-hp did-attack frame-count)]
                             (-> target
                                 (ecs/remove-component (components/alive))

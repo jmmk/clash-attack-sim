@@ -16,3 +16,62 @@
 (defn set-property! [obj prop value]
     (aset obj prop value)
       obj)
+
+;; Get component properties in entities
+(defn get-position [entity]
+  (get-in entity [:position :point]))
+
+(defn get-target [entity]
+  (get-in entity [:attacker :target]))
+
+(defn get-velocity [entity]
+  (get-in entity [:movement :velocity]))
+
+(defn get-angle [entity]
+  (get-in entity [:facing :angle]))
+
+(defn get-bg-sprite [entity]
+  (get-in entity [:background :sprite]))
+
+(defn get-sprite [entity]
+  (get-in entity [:renderable :current-sprite]))
+
+(defn get-anchor [entity]
+  (get-in entity [:renderable :anchor]))
+
+(defn get-size [entity]
+  (get-in entity [:renderable :size]))
+
+(defn get-current-index [entity]
+  (get-in entity [:animation :current-frame]))
+
+(defn get-attack-range [entity]
+  (get-in entity [:attacker :attack-range]))
+
+(defn get-attack-speed [entity]
+  (get-in entity [:attacker :attack-speed]))
+
+(defn get-damage [entity]
+  (get-in entity [:attacker :damage]))
+
+(defn get-hp [entity]
+  (get-in entity [:attackable :hp]))
+
+(defn get-last-attacked [entity]
+  (get-in entity [:attacker :last-attack-frame]))
+
+(defn get-current-animation [entity]
+  (let [animation-component (get-in entity [:animation])
+        animations (:animations animation-component)
+        current (:current-animation animation-component)]
+    (current animations)))
+
+(defn did-attack? [entity frame-count]
+  (= frame-count (get-last-attacked entity)))
+
+(defn get-attackers [entity attackers]
+  (filter #(= (get-target %) entity) attackers))
+
+(defn get-bounds [entity]
+  (.getBounds
+      (get-in entity [:renderable :current-sprite])))

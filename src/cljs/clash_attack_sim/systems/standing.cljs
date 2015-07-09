@@ -1,5 +1,5 @@
 (ns clash-attack-sim.systems.standing
-  (:require [clash-attack-sim.engine.ecs :as ecs]))
+  (:require [maye.core :as ecs]))
 
 (defn stand-still [world entities]
   (ecs/assoc-entities world

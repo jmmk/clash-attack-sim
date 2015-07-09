@@ -1,5 +1,5 @@
 (ns clash-attack-sim.systems.input
-  (:require [clash-attack-sim.engine.ecs :as ecs]
+  (:require [maye.core :as ecs]
             [clash-attack-sim.entities :as e]))
 
 (def clicks (atom []))

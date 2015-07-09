@@ -1,5 +1,5 @@
 (ns clash-attack-sim.components
-  (:require-macros [clash-attack-sim.macro :refer [defcomponent]]))
+  (:require-macros [maye.macro :refer [defcomponent]]))
 
 (defcomponent position [point])
 (defcomponent renderable [default-sprite current-sprite anchor size])

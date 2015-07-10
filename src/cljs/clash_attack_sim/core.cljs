@@ -52,9 +52,6 @@
     (helper/set-property! stage "click" input/stage-click)
     stage))
 
-(defn frame-counter [world]
-  (update world :frame-count inc))
-
 (defn add-systems [world]
   (ecs/add-systems world
                    [[input/input-system 1]
@@ -77,11 +74,6 @@
          (entities/town-hall 400 400)
          (entities/town-hall 320 320)])))
 
-(defn next-world [world]
-  (-> world
-      (frame-counter)
-      (ecs/call-systems)))
-
 (defn re-trigger-timer []
   (reagent/next-tick #(rf/dispatch [:next-tick])))
 
@@ -96,7 +88,7 @@
     (re-trigger-timer)
     (if (:paused? db)
       db
-      (next-world db))))
+      (ecs/update-world db))))
 
 (rf/register-handler
   :toggle-pause

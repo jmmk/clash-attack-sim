@@ -4,7 +4,7 @@
 
 (defn get-next-index [animation-seq current-index]
   (let [length (count animation-seq)]
-    (if (= current-index (- length 1))
+    (if (= current-index (dec length))
       0
       (inc current-index))))
 

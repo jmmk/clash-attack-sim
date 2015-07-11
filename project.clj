@@ -18,18 +18,18 @@
             [lein-ring "0.9.6"]
             [lein-figwheel "0.3.5"]]
 
-  :source-paths ["src/clj"]
+  :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["assets/js/clash_attack_sim.js"
                                     "assets/js/out"
                                     "assets/js/out-adv"]
 
-  :ring {:handler clash-attack-sim.core/handler}
+  :ring {:handler clash-attack-sim.server/handler}
 
-  :figwheel {:ring-handler clash-attack-sim.core/handler}
+  :figwheel {:ring-handler clash-attack-sim.server/handler}
 
   :cljsbuild {:builds [{:id "dev"
-                        :source-paths ["src/cljs"]
+                        :source-paths ["src"]
                         :figwheel {:on-jsload "clash-attack-sim.core/init"}
                         :compiler {:main "clash-attack-sim.core"
                                    :output-to "assets/js/clash_attack_sim.js"
@@ -38,7 +38,7 @@
                                    :cache-analysis true
                                    :source-map true}}
                        {:id "production"
-                        :source-paths ["src/cljs"]
+                        :source-paths ["src"]
                         :compiler {:output-to "assets/js/clash_attack_sim.js"
                                    :output-dir "assets/js/out-adv"
                                    :optimizations :advanced

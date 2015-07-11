@@ -1,4 +1,4 @@
-(ns clash-attack-sim.core
+(ns clash-attack-sim.server
   (:require [bidi.ring :as br]
             [ring.util.response :as resp]))
 

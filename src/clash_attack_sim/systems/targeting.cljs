@@ -3,10 +3,10 @@
             [maye.core :as ecs]
             [clash-attack-sim.components :as components]))
 
-(defn can-attack? [a b attack-range]
+(defn can-attack?
   "Check if the outer bounds of two sprites are within attack-range
   http://stackoverflow.com/questions/8017541/javascript-canvas-collision-detection"
-
+  [a b attack-range]
   (let [a-rect (h/get-bounds a)
         b-rect (h/get-bounds b)
         [a-x a-y] (h/get-position a)

@@ -20,7 +20,7 @@
                           (for [click last-clicks]
                             (let [x (:x click)
                                   y (:y click)
-                                  random-int (+ (.floor js/Math (* (.random js/Math) 639)) 1)]
+                                  random-int (inc (.floor js/Math (* (.random js/Math) 639)))]
                               (if (< random-int x)
                                 (e/barbarian x y)
                                 (e/archer x y)))))

@@ -13,7 +13,7 @@
       current-hp)))
 
 (defn get-state [hp]
-  (if (> hp 0)
+  (if (pos? hp)
     (components/alive)
     (components/dead)))
 

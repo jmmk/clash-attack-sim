@@ -85,14 +85,15 @@
 (rf/register-handler
   :next-tick
   (fn [db _]
-    (re-trigger-timer)
-    (if (:paused? db)
-      db
-      (ecs/update-world db))))
+    (when-not (:paused? db)
+      (re-trigger-timer))
+    (ecs/update-world db)))
 
 (rf/register-handler
   :toggle-pause
   (fn [db _]
+    (when (:paused? db)
+      (re-trigger-timer))
     (update-in db [:paused?] not)))
 
 (rf/register-handler

@@ -47,6 +47,7 @@
     renderer))
 
 (defn init-stage []
+  (helper/set-property! js/PIXI "AUTO_PREVENT_DEFAULT" false)
   (let [stage (js/PIXI.Container. 0xFFFFFF)]
     (helper/set-property! stage "interactive" true)
     (helper/set-property! stage "click" input/stage-click)

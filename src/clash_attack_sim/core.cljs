@@ -39,9 +39,6 @@
                    :label (if @paused? "Unpause" "Pause")
                    :on-click #(rf/dispatch [:toggle-pause])]]])))
 
-(defn init-interaction-manager [renderer]
-  (js/PIXI.interaction.InteractionManager. renderer (js-obj "autoPreventDefault" false)))
-
 (defn init-renderer []
   (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
         view (.-view renderer)
@@ -69,17 +66,14 @@
                     [render/rendering-system 10]]))
 
 (defn new-game-state []
-  (let [renderer (init-renderer)]
-    (-> ecs/world
-        (assoc :renderer renderer
-               :stage (init-stage)
-               :interaction-manager (init-interaction-manager renderer))
-        (add-systems)
-        (ecs/assoc-entities
-          [(entities/background)
-           (entities/barbarian 160 160)
-           (entities/town-hall 400 400)
-           (entities/town-hall 320 320)]))))
+  (-> ecs/world
+      (assoc :renderer (init-renderer) :stage (init-stage))
+      (add-systems)
+      (ecs/assoc-entities
+        [(entities/background)
+         (entities/barbarian 160 160)
+         (entities/town-hall 400 400)
+         (entities/town-hall 320 320)])))
 
 (defn re-trigger-timer []
   (reagent/next-tick #(rf/dispatch [:next-tick])))

@@ -50,6 +50,7 @@
   (let [stage (js/PIXI.Container. 0xFFFFFF)]
     (helper/set-property! stage "interactive" true)
     (helper/set-property! stage "click" input/stage-click)
+    (helper/set-property! stage "tap" input/stage-click)
     stage))
 
 (defn add-systems [world]

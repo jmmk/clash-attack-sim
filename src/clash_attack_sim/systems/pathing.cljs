@@ -4,6 +4,7 @@
 
 (ns clash-attack-sim.systems.pathing
   (:require [maye.core :as ecs]
+            [maye.util :as util]
             [clash-attack-sim.util.helper :as h]
             [clash-attack-sim.components :as components]))
 
@@ -12,18 +13,17 @@
         delta-x (- target-x this-x)]
     (.atan2 js/Math delta-y delta-x)))
 
-(defn update-facing [world entities]
-  (ecs/assoc-entities world
-                      (for [attacker entities]
-                        (let [target (h/get-target attacker)
-                              [target-x target-y] (h/get-position target)
-                              [attacker-x attacker-y] (h/get-position attacker)
-                              angle (get-angle target-x target-y attacker-x attacker-y)]
-                          (ecs/assoc-component attacker (components/facing angle))))))
+(defn update-facing [_ entities]
+  (for [attacker entities]
+    (let [target (h/get-target attacker)
+          [target-x target-y] (h/get-position target)
+          [attacker-x attacker-y] (h/get-position attacker)
+          angle (get-angle target-x target-y attacker-x attacker-y)]
+      (ecs/assoc-component attacker (components/new-facing angle)))))
 
 (def pathing-system
-  (ecs/system
+  (ecs/new-system
     :name :pathing
-    :matcher-fn #(ecs/has-components? % [:attacker :movement])
-    :run-when (ecs/frame-period 5)
+    :entity-filter #(ecs/contains-components? % [:attacker :movement])
+    :update-filter (util/frame-period 5)
     :update-fn update-facing))

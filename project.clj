@@ -4,7 +4,7 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [tailrecursion/cljs-priority-map "1.1.0"]
                  [org.clojure/tools.reader "0.10.0-alpha1"]
-                 [maye "0.1.0-SNAPSHOT"]
+                 [maye "0.2.0-SNAPSHOT"]
                  [bidi "1.20.0"]
                  [cljsjs/pixi "3.0.7-0"]
                  [re-frame "0.4.1"]

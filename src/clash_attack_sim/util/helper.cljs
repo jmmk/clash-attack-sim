@@ -61,10 +61,9 @@
   (get-in entity [:attacker :last-attack-frame]))
 
 (defn get-current-animation [entity]
-  (let [animation-component (get-in entity [:animation])
-        animations (:animations animation-component)
-        current (:current-animation animation-component)]
-    (current animations)))
+  (let [{:keys [animation]} entity
+        {:keys [animations current-animation]} animation]
+    (current-animation animations)))
 
 (defn did-attack? [entity frame-count]
   (= frame-count (get-last-attacked entity)))

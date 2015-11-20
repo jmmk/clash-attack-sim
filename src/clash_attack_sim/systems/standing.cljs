@@ -1,16 +1,16 @@
 (ns clash-attack-sim.systems.standing
-  (:require [maye.core :as ecs]))
+  (:require [maye.core :as ecs]
+            [maye.util :as util]))
 
-(defn stand-still [world entities]
-  (ecs/assoc-entities world
-                      (for [entity entities]
-                        (let [renderable-component (:renderable entity)
-                              default-sprite (:default-sprite renderable-component)]
-                          (ecs/assoc-component entity (assoc renderable-component :current-sprite default-sprite))))))
+(defn stand-still [_ entities]
+  (for [entity entities]
+    (let [{:keys [renderable]} entity
+          {:keys [default-sprite]} renderable]
+      (ecs/assoc-component entity (assoc renderable :current-sprite default-sprite)))))
 
 (def standing-system
-  (ecs/system
+  (ecs/new-system
     :name :standing
-    :matcher-fn #(contains? % :standing)
-    :run-when (ecs/frame-period 5)
+    :entity-filter #(contains? % :standing)
+    :update-filter (util/frame-period 5)
     :update-fn stand-still))

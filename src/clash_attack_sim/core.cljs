@@ -9,23 +9,21 @@
             [clash-attack-sim.systems.movement :as movement]
             [clash-attack-sim.systems.animation :as animation]
             [clash-attack-sim.systems.pathing :as pathing]
-            [clash-attack-sim.systems.input :as input]
             [clash-attack-sim.systems.attack :as attack]
             [clash-attack-sim.systems.health :as health]
-            [clash-attack-sim.systems.render :as render]
+            [clash-attack-sim.systems.pixi :as pixi]
             [clash-attack-sim.systems.standing :as standing]
-            [clash-attack-sim.util.helper :as helper]
             [clash-attack-sim.entities :as entities]
             [maye.core :as ecs]))
 
 (enable-console-print!)
 
 (defn canvas []
-  [:div {:id "battlefield"
-         :style {:margin-left "auto"
+  [:div {:id    "battlefield"
+         :style {:margin-left  "auto"
                  :margin-right "auto"
-                 :width "640px"
-                 :height "640px"}}])
+                 :width        "640px"
+                 :height       "640px"}}])
 
 (defn game []
   (let [paused? (rf/subscribe [:paused?])]
@@ -39,37 +37,23 @@
                    :label (if @paused? "Unpause" "Pause")
                    :on-click #(rf/dispatch [:toggle-pause])]]])))
 
-(defn init-renderer []
-  (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
-        view (.-view renderer)
-        anchor (dom/getElement "battlefield")]
-    (.appendChild anchor view)
-    renderer))
 
-(defn init-stage []
-  (let [stage (js/PIXI.Container. 0xFFFFFF)]
-    (helper/set-property! stage "interactive" true)
-    (helper/set-property! stage "click" input/stage-click)
-    (helper/set-property! stage "tap" input/stage-click)
-    stage))
-
-(defn add-systems [world]
-  (ecs/add-systems world
-                   [[input/input-system 1]
-                    [targeting/targeting-system 3]
-                    [pathing/pathing-system 4]
-                    [movement/movement-system 5]
-                    [attack/attack-system 5]
-                    [health/health-system 6]
-                    [animation/animation-system 8]
-                    [standing/standing-system 9]
-                    [render/rendering-system 10]]))
+(defn add-systems [state]
+  (ecs/add-systems state
+                   [[targeting/targeting-system 30]
+                    [pathing/pathing-system 40]
+                    [movement/movement-system 50]
+                    [attack/attack-system 50]
+                    [health/health-system 60]
+                    [animation/animation-system 80]
+                    [standing/standing-system 90]
+                    [pixi/input-system 99]
+                    [pixi/rendering-system 100]]))
 
 (defn new-game-state []
-  (-> ecs/world
-      (assoc :renderer (init-renderer) :stage (init-stage))
+  (-> ecs/new-state
       (add-systems)
-      (ecs/assoc-entities
+      (ecs/add-entities
         [(entities/background)
          (entities/barbarian 160 160)
          (entities/town-hall 400 400)
@@ -88,7 +72,7 @@
   (fn [db _]
     (when-not (:paused? db)
       (re-trigger-timer))
-    (ecs/update-world db)))
+    (ecs/update-state db)))
 
 (rf/register-handler
   :toggle-pause

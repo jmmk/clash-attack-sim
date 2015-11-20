@@ -14,3 +14,5 @@ figwheel_server.log
 /assets/js/out/
 /assets/js/out-adv/
 /assets/js/clash_attack_sim.js
+/.idea
+/*.iml

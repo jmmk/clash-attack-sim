@@ -65,8 +65,8 @@
         {:keys [animations current-animation]} animation]
     (current-animation animations)))
 
-(defn did-attack? [entity frame-count]
-  (= frame-count (get-last-attacked entity)))
+(defn did-attack? [entity frame]
+  (= frame (get-last-attacked entity)))
 
 (defn get-attackers [entity attackers]
   (filter #(= (get-target %) entity) attackers))

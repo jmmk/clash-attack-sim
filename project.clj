@@ -2,21 +2,19 @@
   :description "Clash of Clans Attack Simulator"
   :url "https://www.github.com/jmmk/clash-attack-sim"
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [tailrecursion/cljs-priority-map "1.1.0"]
-                 [org.clojure/tools.reader "0.10.0-alpha1"]
+                 [org.clojure/tools.reader "0.10.0-alpha3"]
+                 [figwheel-sidecar "0.5.0-2"]
                  [maye "0.2.0-SNAPSHOT"]
                  [bidi "1.20.0"]
                  [cljsjs/pixi "3.0.7-0"]
                  [re-frame "0.4.1"]
                  [re-com "0.5.4"]
-                 [ring/ring-core "1.3.2"]
-                 [org.clojure/clojurescript "0.0-3308"]]
+                 [ring/ring-core "1.4.0"]
+                 [org.clojure/clojurescript "1.7.145"]]
 
-  :node-dependencies [[source-map-support "0.2.8"]]
-
-  :plugins [[lein-cljsbuild "1.0.6"]
-            [lein-ring "0.9.6"]
-            [lein-figwheel "0.3.5"]]
+  :plugins [[lein-cljsbuild "1.1.1"]
+            [lein-figwheel "0.5.0-2"]
+            [lein-ring "0.9.7"]]
 
   :source-paths ["src"]
 

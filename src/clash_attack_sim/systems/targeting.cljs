@@ -1,7 +1,6 @@
 (ns clash-attack-sim.systems.targeting
   (:require [clash-attack-sim.util.helper :as h]
             [maye.core :as ecs]
-            [maye.util :as util]
             [clash-attack-sim.components :as components]))
 
 (defn can-attack?
@@ -49,8 +48,8 @@
 
 (defn get-action [should-move?]
   (if should-move?
-    (components/new-moving)
-    (components/new-attacking)))
+    components/new-moving
+    components/new-attacking))
 
 (defn get-targets [_ entities]
   (let [attackers (filter #(contains? % :attacker) entities)
@@ -66,22 +65,22 @@
               target (find-target attacker alive)
               should-move? (not (can-attack? attacker target attack-range))]
           (-> attacker
-              (ecs/dissoc-components [(components/new-moving)
-                                      (components/new-attacking)
-                                      (components/new-standing)])
+              (ecs/dissoc-components [components/new-moving
+                                      components/new-attacking
+                                      components/new-standing])
               (ecs/assoc-components [(components/new-movement velocity)
                                      (get-action should-move?)
                                      (components/new-attacker attack-range attack-speed damage target last-attack-frame)]))))
       (for [attacker attackers]
         (-> attacker
-            (ecs/dissoc-components [(components/new-moving)
-                                    (components/new-attacking)])
-            (ecs/assoc-component (components/new-standing)))))))
+            (ecs/dissoc-components [components/new-moving
+                                    components/new-attacking])
+            (ecs/assoc-component components/new-standing))))))
 
 (def targeting-system
   (ecs/new-system
     :name :targeting
-    :entity-filter #(or (contains? % :attacker)
-                        (contains? % :attackable))
-    :update-filter (util/frame-period 5)
+    :entity-filters [#(contains? % :attacker)
+                     #(contains? % :attackable)]
+    :update-filters [(ecs/frame-period 5)]
     :update-fn get-targets))

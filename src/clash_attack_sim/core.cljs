@@ -14,9 +14,24 @@
             [clash-attack-sim.systems.pixi :as pixi]
             [clash-attack-sim.systems.standing :as standing]
             [clash-attack-sim.entities :as entities]
-            [maye.core :as ecs]))
+            [maye.core :as ecs]
+            [clash-attack-sim.util.helper :as helper]))
 
 (enable-console-print!)
+
+(defn init-renderer! []
+  (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
+        view (.-view renderer)
+        anchor (dom/getElement "battlefield")]
+    (.appendChild anchor view)
+    renderer))
+
+(defn init-stage! []
+  (let [stage (js/PIXI.Container. 0xFFFFFF)]
+    (helper/set-property! stage "interactive" true)
+    (helper/set-property! stage "click" pixi/stage-click)
+    (helper/set-property! stage "tap" pixi/stage-click)
+    stage))
 
 (defn canvas []
   [:div {:id    "battlefield"
@@ -39,25 +54,27 @@
 
 
 (defn add-systems [state]
-  (ecs/add-systems state
-                   [[targeting/targeting-system 30]
-                    [pathing/pathing-system 40]
-                    [movement/movement-system 50]
-                    [attack/attack-system 50]
-                    [health/health-system 60]
-                    [animation/animation-system 80]
-                    [standing/standing-system 90]
-                    [pixi/input-system 99]
-                    [pixi/rendering-system 100]]))
+  (ecs/add-systems
+    state
+    [[targeting/targeting-system 30]
+     [pathing/pathing-system 40]
+     [movement/movement-system 50]
+     [attack/attack-system 50]
+     [health/health-system 60]
+     [animation/animation-system 80]
+     [standing/standing-system 90]
+     [pixi/input-system 99]
+     [pixi/rendering-system 100]]))
 
 (defn new-game-state []
-  (-> ecs/new-state
+  (-> (ecs/new-state)
+      (assoc :renderer (init-renderer!) :stage (init-stage!))
       (add-systems)
       (ecs/add-entities
-        [(entities/background)
-         (entities/barbarian 160 160)
-         (entities/town-hall 400 400)
-         (entities/town-hall 320 320)])))
+        [(entities/new-background)
+         (entities/new-barbarian 160 160)
+         (entities/new-town-hall 400 400)
+         (entities/new-town-hall 320 320)])))
 
 (defn re-trigger-timer []
   (reagent/next-tick #(rf/dispatch [:next-tick])))

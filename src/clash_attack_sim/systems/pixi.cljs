@@ -5,6 +5,8 @@
             [clash-attack-sim.util.helper :as helper]
             [clash-attack-sim.entities :as e]))
 
+(enable-console-print!)
+
 (defn remove-children [stage]
   (.removeChildren stage)
   stage)
@@ -34,6 +36,15 @@
 
 (def clicks (atom []))
 
+(defn stage-click [event]
+  (let [data (.-data event)
+        target (.-target event)
+        point (.getLocalPosition data target)
+        x (.-x point)
+        y (.-y point)]
+    (swap! clicks conj {:x x :y y})))
+
+
 (defn handle-input [_ _]
   (let [last-clicks @clicks]
     (reset! clicks [])
@@ -43,15 +54,13 @@
               y (:y click)
               random-int (inc (.floor js/Math (* (.random js/Math) 639)))]
           (if (< random-int x)
-            (e/barbarian x y)
-            (e/archer x y))))
+            (e/new-barbarian x y)
+            (e/new-archer x y))))
       [])))
 
-(defn render [system entities]
+(defn render [{:keys [stage renderer]} entities]
   (let [background (filter #(contains? % :background) entities)
-        renderable (filter #(contains? % :renderable) entities)
-        stage (:stage system)
-        renderer (:renderer system)]
+        renderable (filter #(contains? % :renderable) entities)]
     (remove-children stage)
     (doseq [entity background]
       (add-child! stage (helper/get-bg-sprite entity)))
@@ -88,40 +97,17 @@
     (.render renderer stage)
     []))
 
-(defn init-renderer []
-  (let [renderer (js/PIXI.autoDetectRenderer. helper/total-width helper/total-height)
-        view (.-view renderer)
-        anchor (dom/getElement "battlefield")]
-    (.appendChild anchor view)
-    renderer))
-
-(defn stage-click [event]
-  (let [data (.-data event)
-        target (.-target event)
-        point (.getLocalPosition data target)
-        x (.-x point)
-        y (.-y point)]
-    (swap! clicks conj {:x x :y y})))
-
-(defn init-stage []
-  (let [stage (js/PIXI.Container. 0xFFFFFF)]
-    (helper/set-property! stage "interactive" true)
-    (helper/set-property! stage "click" stage-click)
-    (helper/set-property! stage "tap" stage-click)
-    stage))
 
 (def rendering-system
-  (-> (ecs/new-system
-        :name :rendering
-        :entity-filter #(or (contains? % :background)
-                            (contains? % :renderable))
-        :update-fn render)
-      (assoc :renderer (init-renderer))
-      (assoc :stage (init-stage))))
+  (ecs/new-system
+    :name :rendering
+    :entity-filters [#(contains? % :background)
+                     #(contains? % :renderable)]
+    :update-fn render))
 
 (def input-system
-  (-> (ecs/new-system
-        :name :input
-        :entity-filter (constantly false)
-        :update-filter #(seq @clicks)
-        :update-fn handle-input)))
+  (ecs/new-system
+    :name :input
+    :entity-filters [(constantly false)]
+    :update-filters [(fn [_] (seq @clicks))]
+    :update-fn handle-input))

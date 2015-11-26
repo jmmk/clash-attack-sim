@@ -4,7 +4,6 @@
 
 (ns clash-attack-sim.systems.pathing
   (:require [maye.core :as ecs]
-            [maye.util :as util]
             [clash-attack-sim.util.helper :as h]
             [clash-attack-sim.components :as components]))
 
@@ -24,6 +23,6 @@
 (def pathing-system
   (ecs/new-system
     :name :pathing
-    :entity-filter #(ecs/contains-components? % [:attacker :movement])
-    :update-filter (util/frame-period 5)
+    :entity-filters [#(ecs/contains-components? % [:attacker :movement])]
+    :update-filters [(ecs/frame-period 5)]
     :update-fn update-facing))

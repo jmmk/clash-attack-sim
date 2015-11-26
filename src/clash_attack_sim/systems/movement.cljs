@@ -16,6 +16,7 @@
     (assoc animation-component :current-animation :moving :current-frame 0)))
 
 (defn update-position [_ entities]
+  (println "num entities moving: " (count entities))
   (for [mover entities]
     (let [animation-component (:animation mover)
           angle (h/get-angle mover)
@@ -24,11 +25,11 @@
           [final-x final-y] (get-next-position x y angle velocity)]
       (ecs/assoc-components mover
                             [(components/new-position [final-x final-y])
-                             (components/new-animating)
+                             components/new-animating
                              (get-animation animation-component)]))))
 
 (def movement-system
   (ecs/new-system
     :name :movement
-    :entity-filter #(ecs/contains-components? % [:movement :facing :moving])
+    :entity-filters [#(ecs/contains-components? % [:movement :facing :moving])]
     :update-fn update-position))

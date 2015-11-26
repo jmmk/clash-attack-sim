@@ -1,6 +1,7 @@
 (ns clash-attack-sim.systems.standing
-  (:require [maye.core :as ecs]
-            [maye.util :as util]))
+  (:require [maye.core :as ecs]))
+
+(enable-console-print!)
 
 (defn stand-still [_ entities]
   (for [entity entities]
@@ -11,6 +12,6 @@
 (def standing-system
   (ecs/new-system
     :name :standing
-    :entity-filter #(contains? % :standing)
-    :update-filter (util/frame-period 5)
+    :entity-filters [#(contains? % :standing)]
+    :update-filters [(ecs/frame-period 5)]
     :update-fn stand-still))

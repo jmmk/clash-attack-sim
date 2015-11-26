@@ -1,7 +1,6 @@
 (ns clash-attack-sim.systems.animation
   (:require [clash-attack-sim.util.helper :as h]
-            [maye.core :as ecs]
-            [maye.util :as util]))
+            [maye.core :as ecs]))
 
 (defn get-next-index [animation-seq current-index]
   (let [length (count animation-seq)]
@@ -24,6 +23,6 @@
 (def animation-system
   (ecs/new-system
     :name :animation
-    :entity-filter #(ecs/contains-components? % [:renderable :animation :animating])
-    :update-filter (util/frame-period 15)
+    :entity-filters [#(ecs/contains-components? % [:renderable :animation :animating])]
+    :update-filters [(ecs/frame-period 15)]
     :update-fn animate))
